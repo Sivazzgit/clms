@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install mysqli pdo pdo_mysql zip gd \
+    && docker-php-ext-install mysqli pdo pdo_mysql zip gd gettext \
     && rm -rf /var/lib/apt/lists/*
 
 # Create directory for SSL certificates
