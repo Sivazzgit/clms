@@ -42,6 +42,21 @@ if [ ! -f "catlmain.sql.gz" ]; then
     fi
 fi
 
+# Check if myorgap6_kancor.sql exists to prevent Docker Compose mount failures
+if [ ! -f "myorgap6_kancor.sql" ]; then
+    if [ -f "/Users/sivaprasad/Downloads/myorgap6_kancor.sql" ]; then
+        echo "📦 Found myorgap6_kancor.sql in Downloads, copying and configuring..."
+        # Force CREATE DATABASE and USE statements to ensure safe import into the correct database
+        echo "CREATE DATABASE IF NOT EXISTS myorgap6_kancor;" > ./myorgap6_kancor.sql
+        echo "USE myorgap6_kancor;" >> ./myorgap6_kancor.sql
+        cat "/Users/sivaprasad/Downloads/myorgap6_kancor.sql" >> ./myorgap6_kancor.sql
+        echo "✅ Configured myorgap6_kancor.sql successfully!"
+    else
+        echo "📝 Creating a database placeholder for myorgap6_kancor.sql..."
+        echo "-- Placeholder empty database" > myorgap6_kancor.sql
+    fi
+fi
+
 # Start containers in background and build if needed
 docker-compose up -d --build
 

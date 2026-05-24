@@ -3,7 +3,7 @@
 /* $Revision: 1.10 $ */
 
 define ('LIKE','LIKE');
-$_SESSION['DatabaseName']="myorgap6_bareilly";
+$_SESSION['DatabaseName'] = getenv('MYSQL_DATABASE') ?: "myorgap6_bareilly";
 $db = mysqli_connect($host , $dbuser, $dbpassword,$_SESSION['DatabaseName']);
 
 if ( !$db ) {

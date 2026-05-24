@@ -5,6 +5,7 @@ Thumps.db
 # Dynamic Docker assets
 certs/
 catlmain.sql.gz
+myorgap6_kancor.sql
 
 # Local logs and overrides
 mbc/clms/error_log

@@ -2,12 +2,14 @@
 CREATE DATABASE IF NOT EXISTS catlmain;
 CREATE DATABASE IF NOT EXISTS anahaw;
 CREATE DATABASE IF NOT EXISTS myorgap6_bareilly;
+CREATE DATABASE IF NOT EXISTS myorgap6_kancor;
 CREATE DATABASE IF NOT EXISTS kancor;
 
 -- Grant all privileges to anahaw user on all databases
 GRANT ALL PRIVILEGES ON anahaw.* TO 'anahaw'@'%' IDENTIFIED BY 'anahaw';
 GRANT ALL PRIVILEGES ON catlmain.* TO 'anahaw'@'%' IDENTIFIED BY 'anahaw';
 GRANT ALL PRIVILEGES ON myorgap6_bareilly.* TO 'anahaw'@'%' IDENTIFIED BY 'anahaw';
+GRANT ALL PRIVILEGES ON myorgap6_kancor.* TO 'anahaw'@'%' IDENTIFIED BY 'anahaw';
 GRANT ALL PRIVILEGES ON kancor.* TO 'anahaw'@'%' IDENTIFIED BY 'anahaw';
 FLUSH PRIVILEGES;
 

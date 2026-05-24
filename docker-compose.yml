@@ -18,14 +18,14 @@ services:
       MYSQL_HOST: mysql
       MYSQL_USER: anahaw
       MYSQL_PASSWORD: anahaw
-      MYSQL_DATABASE: anahaw
+      MYSQL_DATABASE: myorgap6_kancor
     depends_on:
       mysql:
         condition: service_healthy
     networks:
       - labour-network
     restart: unless-stopped
-
+ 
   mysql:
     image: percona/percona-server:5.7.44-48
     platform: linux/amd64
@@ -34,12 +34,14 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: anahaw
       MYSQL_PASSWORD: anahaw
-      MYSQL_DATABASE: anahaw
+      MYSQL_DATABASE: myorgap6_kancor
     volumes:
       - mysql_data:/var/lib/mysql
       - ./docker/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
       # Support database auto-import if users place a gzip archive in this folder
       - ./catlmain.sql.gz:/docker-entrypoint-initdb.d/catlmain.sql.gz:ro
+      # Auto-import the newly provided myorgap6_kancor.sql database file
+      - ./myorgap6_kancor.sql:/docker-entrypoint-initdb.d/02-myorgap6_kancor.sql:ro
     ports:
       - "3307:3306"
     networks:
