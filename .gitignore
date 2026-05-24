@@ -1,0 +1,11 @@
+# OS-specific files
+.DS_Store
+Thumps.db
+
+# Dynamic Docker assets
+certs/
+catlmain.sql.gz
+
+# Local logs and overrides
+mbc/clms/error_log
+*.log

@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: labour-web
+    ports:
+      - "5002:5000"
+      - "8082:80"
+    volumes:
+      - .:/var/www/html
+      - ./certs:/etc/apache2/certs:ro
+    environment:
+      APACHE_RUN_USER: www-data
+      APACHE_RUN_GROUP: www-data
+      MYSQL_HOST: mysql
+      MYSQL_USER: anahaw
+      MYSQL_PASSWORD: anahaw
+      MYSQL_DATABASE: anahaw
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - labour-network
+    restart: unless-stopped
+
+  mysql:
+    image: percona/percona-server:5.7.44-48
+    platform: linux/amd64
+    container_name: labour-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: anahaw
+      MYSQL_PASSWORD: anahaw
+      MYSQL_DATABASE: anahaw
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      # Support database auto-import if users place a gzip archive in this folder
+      - ./catlmain.sql.gz:/docker-entrypoint-initdb.d/catlmain.sql.gz:ro
+    ports:
+      - "3307:3306"
+    networks:
+      - labour-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+      interval: 10s
+    restart: unless-stopped
+
+networks:
+  labour-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local

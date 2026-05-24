@@ -1,0 +1,80 @@
+Period From,01-09-2020,Period To,10-09-2020,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Employee No,Employee Name,Grade,Section,Shift Group,Normal,Off Day,01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31
+74,THOMAS P A,SWCM,SEP 2 Extractor,C,"G,F",Wednesday,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1
+75,JACOB K PAUL,SWCM,SEP 2 Stripper,A,"E, D",Monday,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3
+76,CHERIYAN K M,SWCM,SEP 1 Stripper,C,"G,F",Wednesday,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1
+77,JAMES G U,SWCM,SEP 1 Stripper,B,"F, E",Tuesday,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2
+78,GEORGE M C,SWCM,SEP 1 Stripper,D,"A, G",Thursday,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O
+79,BABY C D,SWCM,SEP 2 Stripper,F,"C, B",Saturday,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2
+83,ROJI CHAKKAPPAN,SWCM,SEP 2 Extractor,E,"B, A",Friday,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3
+85,NELSON P L,SWCM,SEP 1 Stripper,F,"C, B",Saturday,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2
+90,BABY A D,SWCM,SEP 1 Stripper,A,"E, D",Monday,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3
+91,AYYAPPAN KUNJU P C,SWCM,SEP 2 Extractor,D,"A, G",Thursday,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O
+92,JOSEPH M M,SWCM,SEP 2 Stripper,G,"C, D",Sunday,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1
+95,ANILKUMAR T C,WCM,SEP 1 Extractor,E,"B, A",Friday,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3
+97,BRAHMARAJ M A,SG,FGS 1 - Blending,G,"C, D",Sunday,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1
+99,NEELANDAN K N,CM,SEP 1 Extractor,G,"C, D",Sunday,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1
+101,SURESH KUMAR P,CM,SEP 1 Extractor,F,"C, B",Saturday,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2
+102,JOY P P,CM,SEP 1 Extractor,A,"E, D",Monday,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3
+103,SURESH BABU K R,CM,SEP 2 Extractor,B,"F, E",Tuesday,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2
+104,SUNIL M K,CM,Electrician,C,"G,F",Wednesday,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1
+105,JIJI P M,CM,FGS 1 - Blending,A,"E, D",Monday,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3
+109,SELVAN N,CM,Effluent Treatment Plant,F,"C, B",Saturday,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2
+110,GOPAKUMAR P N,CM,Electrician,A,"E, D",Monday,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3
+112,JAYAN V V,SG,Effluent Treatment Plant,G,"C, D",Sunday,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1
+113,RANJITH P K,SG,SEP 2 Pre Treatment,A,"E, D",Monday,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3
+114,MANOJ KUMAR K K,CM,Pilot Plant 6,B,"F, E",Tuesday,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2
+116,SHAJI N K,CM,Pilot Plant 6,D,"A, G",Thursday,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O
+122,RAJAN P K,G1,FGS 1 - Blending,F,"C, B",Saturday,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2
+123,MARTIN P P,CM,Pilot Plant 6,C,"G,F",Wednesday,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1
+126,POLY P C,CM,Electrician,G,"C, D",Sunday,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1
+127,GEO POULOSE,G1,FGS 1 - Blending,E,"B, A",Friday,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3
+129,DAVIS K J,CM,Boiler,C,"G,F",Wednesday,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1
+130,PAULSON K K,SG,SEP 1 Stripper,G,"C, D",Sunday,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1
+131,ELSON A K,CM,Electrician,B,"F, E",Tuesday,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2
+132,ABHILASH R NAIR,G2,SEP 2 Pre Treatment,F,"C, B",Saturday,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2
+133,RASURAJ K R,G1,SEP 1 Stripper,E,"B, A",Friday,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3
+135,SHAIJU K M,SG,Boiler,E,"B, A",Friday,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3
+137,AKHIL RAVI,G3,SEP 2 Pre Treatment,G,"C, D",Sunday,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1
+138,RENJITH P R,G3,EOD,C,"G,F",Wednesday,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1
+139,STALIN K S,G3,EOD,D,"A, G",Thursday,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O
+140,SUJITH P N,G3,EOD,B,"F, E",Tuesday,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2
+141,ARUN RAVI,SG,Boiler,B,"F, E",Tuesday,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2
+142,MOBIN A K,G3,EOD,E,"B, A",Friday,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3
+143,AKHIL A A,SG,Boiler,D,"A, G",Thursday,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O
+144,SIJO T K,G4,FGS 1 - Filling and Packing,G,"C, D",Sunday,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1
+145,VENI MOHANAN,G3,Lab Helper,G,"C, D",Sunday,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1
+146,AJITH N B,G3,Pilot Plant 2,C,"G,F",Wednesday,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1
+147,JOJO GEORGE,G3,Pilot Plant 2,B,"F, E",Tuesday,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2
+148,ANOOP T S,G3,SEP 1 Pre Treatment,F,"C, B",Saturday,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2
+149,AJITH SASIDHARAN,G3,Pilot Plant 2,D,"A, G",Thursday,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O
+150,JINTO THOMAS,G3,SEP 1 Pre Treatment,A,"E, D",Monday,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3
+151,SUJITH N R,G3,SEP 1 Pre Treatment,G,"C, D",Sunday,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1
+153,SREEJITH K S,G1,Boiler,G,"C, D",Sunday,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1
+154,SYAM T S,SG,Boiler,F,"C, B",Saturday,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2
+155,SARUN MOHANAN,SG,Boiler,A,"E, D",Monday,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3
+156,SURAJ SURESH,G3,SEP 1 Pre Treatment,B,"F, E",Tuesday,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2
+157,STEBIN CHERIAN,G3,FGS 1 - Filling and Packing,C,"G,F",Wednesday,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1
+158,MIDHUN C R,G3,FGS 1 - Filling and Packing,C,"G,F",Wednesday,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1
+159,JINO ROCHA,G3,FGS 1 - Filling and Packing,A,"E, D",Monday,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3
+160,AJU E T,G3,FGS 1 - Filling and Packing,F,"C, B",Saturday,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2
+161,SINOSH K S,G3,FGS 1 - Filling and Packing,B,"F, E",Tuesday,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2
+164,JINESH P R,G4,FGS 1 - Filling and Packing,B,"F, E",Tuesday,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2
+165,LIJO XAVIER,G4,FGS 1 - Filling and Packing,D,"A, G",Thursday,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O
+166,JISHNU P P,G4,FGS 1 - Filling and Packing,A,"E, D",Monday,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3
+167,ARJUN JOSHY,G4,FGS 1 - Filling and Packing,G,"C, D",Sunday,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1
+168,JERIN K J,G4,FGS 2,G,"C, D",Sunday,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1
+169,TONY PAUL,G4,FGS 1 - Filling and Packing,D,"A, G",Thursday,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O
+170,VISHNUDAS K B,G4,FGS 1 - Filling and Packing,E,"B, A",Friday,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3
+171,ARUN JOSE,G4,FGS 1 - Filling and Packing,D,"A, G",Thursday,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O
+172,NALINI,WTR,Lab Helper,G,"C, D",Sunday,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1
+173,SARATH T.S,WTR,FGS 1 - Filling and Packing,F,"C, B",Saturday,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2
+174,DIJO JOSEPH,WTR,FGS 1 - Filling and Packing,G,"C, D",Sunday,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1
+175,ANIL POULOSE,WTR,FGS 1 - Filling and Packing,A,"E, D",Monday,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3
+176,ARUN KRISHNAN K.S,WTR,Operator Trainee,E,"B, A",Friday,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3
+177,MOHITH P M,WTR,Operator Trainee,E,"B, A",Friday,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3
+179,RAHUL V.N,WTR,Operator Trainee,A,"E, D",Monday,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3
+180,KRISHNENDU K.S,WTR,Operator Trainee,B,"F, E",Tuesday,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2
+181,VIVEK SUBRAMANIAN,WTR,FGS 1 - Filling and Packing,B,"F, E",Tuesday,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2
+182,SHANTO POLY,WTR,Operator Trainee,F,"C, B",Saturday,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2
+183,VISHNU MOHAN,WTR,Operator Trainee,G,"C, D",Sunday,2,2,2,2,2,O,1,1,1,1,1,1,O,3,3,3,3,3,3,O,2,2,2,2,2,2,O,1,1,1,1
