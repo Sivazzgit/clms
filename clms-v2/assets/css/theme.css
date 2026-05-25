@@ -1,0 +1,180 @@
+/* ============================================================
+   CLMS 2.0 — Theme: CSS Custom Properties
+   All colours, spacing, typography defined here.
+   To change the theme, only edit this file.
+   ============================================================ */
+
+:root {
+  /* --- Primary Blue Palette --- */
+  --clr-primary:         #1565C0;
+  --clr-primary-hover:   #0D47A1;
+  --clr-primary-light:   #1976D2;
+  --clr-primary-pale:    #E3F2FD;
+  --clr-primary-border:  #90CAF9;
+  --clr-accent:          #2196F3;
+
+  /* --- Neutral / Surface --- */
+  --clr-bg:              #F4F6F9;
+  --clr-surface:         #FFFFFF;
+  --clr-border:          #DDE3ED;
+  --clr-border-focus:    #1976D2;
+  --clr-divider:         #EEF1F6;
+
+  /* --- Text --- */
+  --clr-text:            #1C2B45;
+  --clr-text-muted:      #607080;
+  --clr-text-light:      #9EAAB8;
+  --clr-text-inverse:    #FFFFFF;
+
+  /* --- Sidebar --- */
+  --clr-sidebar-bg:      #1565C0;
+  --clr-sidebar-text:    rgba(255,255,255,0.90);
+  --clr-sidebar-hover:   rgba(255,255,255,0.12);
+  --clr-sidebar-active:  rgba(255,255,255,0.20);
+  --clr-sidebar-active-border: #FFFFFF;
+
+  /* --- Status Colours --- */
+  --clr-success:         #2E7D32;
+  --clr-success-light:   #E8F5E9;
+  --clr-success-border:  #A5D6A7;
+
+  --clr-danger:          #C62828;
+  --clr-danger-hover:    #B71C1C;
+  --clr-danger-light:    #FFEBEE;
+  --clr-danger-border:   #EF9A9A;
+
+  --clr-warning:         #E65100;
+  --clr-warning-light:   #FFF3E0;
+  --clr-warning-border:  #FFCC80;
+
+  --clr-info:            #0277BD;
+  --clr-info-light:      #E1F5FE;
+  --clr-info-border:     #81D4FA;
+
+  --clr-muted:           #607080;
+  --clr-muted-light:     #F1F3F6;
+  --clr-muted-border:    #C8D0DC;
+
+  /* --- Typography --- */
+  --font-sans:    'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+  --text-xs:    0.75rem;   /* 12px */
+  --text-sm:    0.8125rem; /* 13px */
+  --text-base:  0.875rem;  /* 14px */
+  --text-md:    1rem;      /* 16px */
+  --text-lg:    1.125rem;  /* 18px */
+  --text-xl:    1.25rem;   /* 20px */
+  --text-2xl:   1.5rem;    /* 24px */
+  --text-3xl:   1.875rem;  /* 30px */
+
+  --fw-normal:  400;
+  --fw-medium:  500;
+  --fw-semi:    600;
+  --fw-bold:    700;
+
+  --leading-tight:  1.25;
+  --leading-normal: 1.5;
+  --leading-loose:  1.75;
+
+  /* --- Spacing --- */
+  --sp-1:   0.25rem;  /* 4px */
+  --sp-2:   0.5rem;   /* 8px */
+  --sp-3:   0.75rem;  /* 12px */
+  --sp-4:   1rem;     /* 16px */
+  --sp-5:   1.25rem;  /* 20px */
+  --sp-6:   1.5rem;   /* 24px */
+  --sp-8:   2rem;     /* 32px */
+  --sp-10:  2.5rem;   /* 40px */
+  --sp-12:  3rem;     /* 48px */
+
+  /* --- Border Radius --- */
+  --radius-sm:   4px;
+  --radius-md:   6px;
+  --radius-lg:   10px;
+  --radius-xl:   14px;
+  --radius-full: 9999px;
+
+  /* --- Shadows --- */
+  --shadow-xs:  0 1px 2px rgba(0,0,0,0.06);
+  --shadow-sm:  0 1px 4px rgba(0,0,0,0.08);
+  --shadow-md:  0 2px 8px rgba(0,0,0,0.10);
+  --shadow-lg:  0 4px 16px rgba(0,0,0,0.12);
+  --shadow-xl:  0 8px 32px rgba(0,0,0,0.14);
+
+  /* --- Transitions --- */
+  --transition-fast:   0.12s ease;
+  --transition-base:   0.20s ease;
+  --transition-slow:   0.35s ease;
+
+  /* --- Layout --- */
+  --sidebar-width:        240px;
+  --sidebar-width-mini:   60px;
+  --header-height:        56px;
+  --content-max-width:    1400px;
+}
+
+/* ============================================================
+   Base Reset & Typography
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--clr-text);
+  background: var(--clr-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--clr-primary-light);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+a:hover { color: var(--clr-primary); text-decoration: underline; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--fw-semi);
+  line-height: var(--leading-tight);
+  color: var(--clr-text);
+}
+
+h1 { font-size: var(--text-2xl); }
+h2 { font-size: var(--text-xl); }
+h3 { font-size: var(--text-lg); }
+h4 { font-size: var(--text-md); }
+h5 { font-size: var(--text-base); }
+h6 { font-size: var(--text-sm); }
+
+p { margin-bottom: var(--sp-4); }
+p:last-child { margin-bottom: 0; }
+
+small { font-size: var(--text-xs); }
+
+code, kbd, pre {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--clr-divider);
+  margin: var(--sp-6) 0;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* Focus outline — accessible */
+:focus-visible {
+  outline: 2px solid var(--clr-primary-light);
+  outline-offset: 2px;
+}

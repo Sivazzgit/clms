@@ -23,9 +23,11 @@ RUN mkdir -p /etc/apache2/certs
 # Copy Apache configuration files
 COPY docker/apache-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
+COPY docker/apache-clmsv2.conf /etc/apache2/sites-available/clms-v2.conf
+COPY docker/ports.conf /etc/apache2/ports.conf
 
-# Enable SSL site
-RUN a2ensite default-ssl.conf
+# Enable SSL site and clms-v2 site
+RUN a2ensite default-ssl.conf clms-v2.conf
 
 # Set document root configuration via sed
 ENV APACHE_DOCUMENT_ROOT=/var/www/html
@@ -45,6 +47,7 @@ WORKDIR /var/www/html
 # Expose ports
 EXPOSE 80
 EXPOSE 5000
+EXPOSE 8083
 
 # Use entrypoint script
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

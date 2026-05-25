@@ -8,24 +8,32 @@ services:
     container_name: labour-web
     ports:
       - "5002:5000"
-      - "8082:80"
+      - "8082:80"        # Legacy app
+      - "8083:8083"      # CLMS v2
     volumes:
       - .:/var/www/html
       - ./certs:/etc/apache2/certs:ro
+      - uploads_data:/var/www/html/clms-v2/uploads
     environment:
       APACHE_RUN_USER: www-data
       APACHE_RUN_GROUP: www-data
+      # Legacy app DB
       MYSQL_HOST: mysql
       MYSQL_USER: anahaw
       MYSQL_PASSWORD: anahaw
       MYSQL_DATABASE: myorgap6_kancor
+      # CLMS v2 DB
+      CLMS_V2_DB_HOST: mysql
+      CLMS_V2_DB_NAME: clms_v2
+      CLMS_V2_DB_USER: anahaw
+      CLMS_V2_DB_PASS: anahaw
     depends_on:
       mysql:
         condition: service_healthy
     networks:
       - labour-network
     restart: unless-stopped
- 
+
   mysql:
     image: percona/percona-server:5.7.44-48
     platform: linux/amd64
@@ -38,10 +46,11 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
       - ./docker/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
-      # Support database auto-import if users place a gzip archive in this folder
+      # CLMS v2 schema + seeds (runs after databases are created by 01-init.sql)
+      - ./clms-v2/database/docker_init.sql:/docker-entrypoint-initdb.d/02-clms-v2.sql:ro
+      # Legacy data
       - ./catlmain.sql.gz:/docker-entrypoint-initdb.d/catlmain.sql.gz:ro
-      # Auto-import the newly provided myorgap6_kancor.sql database file
-      - ./myorgap6_kancor.sql:/docker-entrypoint-initdb.d/02-myorgap6_kancor.sql:ro
+      - ./myorgap6_kancor.sql:/docker-entrypoint-initdb.d/03-myorgap6_kancor.sql:ro
     ports:
       - "3307:3306"
     networks:
@@ -53,10 +62,27 @@ services:
       interval: 10s
     restart: unless-stopped
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: labour-pma
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8090:80"
+    depends_on:
+      - mysql
+    networks:
+      - labour-network
+    restart: unless-stopped
+
 networks:
   labour-network:
     driver: bridge
 
 volumes:
   mysql_data:
+    driver: local
+  uploads_data:
     driver: local
