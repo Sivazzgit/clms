@@ -24,7 +24,7 @@ $empSummary = DB::rows(
      JOIN employees e ON e.id=a.employee_id
      JOIN vendors v   ON v.id=a.vendor_id
      WHERE $whereStr
-     GROUP BY a.employee_id ORDER BY v.name, e.first_name",
+     GROUP BY a.employee_id, e.employee_code, e.first_name, e.last_name, v.name, e.category_id ORDER BY v.name, e.first_name",
     $bind
 );
 
@@ -51,12 +51,12 @@ ob_start();
 ?>
 <div class="page-header">
   <div><h1 class="page-title">PF &amp; ESI Register</h1></div>
-  <div class="page-actions"><a href="/reports" class="btn btn-ghost">← Reports</a></div>
+  <div class="page-actions"><a href="<?= APP_BASE ?>/reports" class="btn btn-ghost">← Reports</a></div>
 </div>
 
 <div class="card">
   <div class="table-toolbar">
-    <form method="GET" action="/reports/pf-esi" style="display:flex;gap:var(--space-3)">
+    <form method="GET" action="<?= APP_BASE ?>/reports/pf-esi" style="display:flex;gap:var(--space-3)">
       <input type="month" name="month" class="form-control" value="<?= $month ?>">
       <select name="vendor_id" class="form-control" style="width:auto">
         <option value="">All Vendors</option>

@@ -48,7 +48,7 @@ ob_start();
     <div class="card-header"><h3 class="card-title">HR-Accepted Indents</h3></div>
     <div style="padding:0">
       <?php foreach ($indents as $ind): ?>
-      <a href="/indent/assign?id=<?= $ind['id'] ?>"
+      <a href="<?= APP_BASE ?>/indent/assign?id=<?= $ind['id'] ?>"
          style="display:block;padding:var(--space-3) var(--space-4);border-bottom:var(--border-base);
                 text-decoration:none;color:inherit;<?= $ind['id']==$selectedId ? 'background:var(--clr-bg-subtle);font-weight:600' : '' ?>">
         <div><?= Helpers::h($ind['indent_no']) ?></div>
@@ -68,7 +68,7 @@ ob_start();
       <div class="card-header">
         <h3 class="card-title">
           <?= Helpers::h($selectedIndent['indent_no']) ?>
-          &mdash; <a href="/indent/<?= $selectedId ?>/view">View Detail</a>
+          &mdash; <a href="<?= APP_BASE ?>/indent/<?= $selectedId ?>/view">View Detail</a>
         </h3>
       </div>
       <div class="table-wrapper">
@@ -82,7 +82,7 @@ ob_start();
               <td><?= $ln['required_count'] ?></td>
               <td><?= $ln['total_assigned'] ?></td>
               <td>
-                <form method="POST" action="/indent/action" style="display:flex;gap:var(--space-2);align-items:center">
+                <form method="POST" action="<?= APP_BASE ?>/indent/action" style="display:flex;gap:var(--space-2);align-items:center">
                   <input type="hidden" name="csrf_token"      value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
                   <input type="hidden" name="action"          value="assign_vendor">
                   <input type="hidden" name="indent_id"       value="<?= $selectedId ?>">

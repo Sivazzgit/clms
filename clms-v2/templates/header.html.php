@@ -8,7 +8,7 @@
 <header class="clms-header" role="banner">
 
   <!-- Mobile sidebar toggle -->
-  <button class="header-menu-btn" id="sidebarToggle" aria-label="Toggle navigation" aria-expanded="false">
+  <button class="btn-sidebar-toggle" id="sidebarToggle" aria-label="Toggle navigation" aria-expanded="false">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <line x1="3" y1="6" x2="21" y2="6"/>
       <line x1="3" y1="12" x2="21" y2="12"/>

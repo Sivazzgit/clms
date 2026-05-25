@@ -31,9 +31,9 @@ $pageContent  = $pageContent  ?? '';
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/theme.css">
-  <link rel="stylesheet" href="/assets/css/layout.css">
-  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="<?= APP_BASE ?>/assets/css/theme.css">
+  <link rel="stylesheet" href="<?= APP_BASE ?>/assets/css/layout.css">
+  <link rel="stylesheet" href="<?= APP_BASE ?>/assets/css/components.css">
 </head>
 <body>
 
@@ -92,11 +92,11 @@ $pageContent  = $pageContent  ?? '';
 <?php unset($_SESSION['flash_error']); endif; ?>
 
 <!-- Scripts — order matters -->
-<script src="/assets/js/utils.js"></script>
-<script src="/assets/js/api.js"></script>
-<script src="/assets/js/forms.js"></script>
-<script src="/assets/js/tables.js"></script>
-<script src="/assets/js/app.js"></script>
+<script src="<?= APP_BASE ?>/assets/js/utils.js"></script>
+<script src="<?= APP_BASE ?>/assets/js/api.js"></script>
+<script src="<?= APP_BASE ?>/assets/js/forms.js"></script>
+<script src="<?= APP_BASE ?>/assets/js/tables.js"></script>
+<script src="<?= APP_BASE ?>/assets/js/app.js"></script>
 
 <?php if (!empty($pageScripts)): ?>
   <?php foreach ($pageScripts as $script): ?>

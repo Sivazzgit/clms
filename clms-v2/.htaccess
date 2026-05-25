@@ -1,5 +1,12 @@
 Options -MultiViews
 RewriteEngine On
+
+# -----------------------------------------------------------------------
+# PRODUCTION SUBFOLDER: change the two lines below when deploying to /clms/
+#   SetEnv APP_BASE /clms
+#   RewriteBase /clms/
+# For root / Docker deployment leave them as-is:
+# -----------------------------------------------------------------------
 RewriteBase /
 
 # Serve existing files/dirs directly

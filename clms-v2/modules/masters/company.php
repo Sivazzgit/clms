@@ -54,7 +54,7 @@ ob_start();
   <div class="alert alert-danger" style="margin-bottom:var(--space-2)"><?= Helpers::h($e) ?></div>
 <?php endforeach; ?>
 
-<form method="POST" action="/masters/company">
+<form method="POST" action="<?= APP_BASE ?>/masters/company">
   <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
 
   <div class="card" style="margin-bottom:var(--space-4)">

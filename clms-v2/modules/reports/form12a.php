@@ -19,16 +19,16 @@ if ($vendorId) { $where[] = 'a.vendor_id=?'; $bind[] = $vendorId; }
 $whereStr = implode(' AND ', $where);
 
 $workers = DB::rows(
-    "SELECT e.employee_code, e.first_name, e.last_name, e.date_of_birth, e.gender,
+    "SELECT e.employee_code, e.first_name, e.last_name, e.dob, e.gender,
             v.name AS vendor_name, lc.name AS category_name,
             COUNT(DISTINCT a.attendance_date) AS days_worked,
             MIN(a.attendance_date) AS first_day, MAX(a.attendance_date) AS last_day
      FROM attendance a
      JOIN employees e       ON e.id=a.employee_id
      JOIN vendors v         ON v.id=a.vendor_id
-     JOIN labour_categories lc ON lc.id=e.category_id
+     LEFT JOIN labour_categories lc ON lc.id=e.category_id
      WHERE $whereStr
-     GROUP BY e.id, e.employee_code, e.first_name, e.last_name, e.date_of_birth, e.gender, v.name, lc.name
+     GROUP BY e.id, e.employee_code, e.first_name, e.last_name, e.dob, e.gender, v.name, lc.name
      ORDER BY v.name, e.first_name",
     $bind
 );
@@ -45,13 +45,13 @@ ob_start();
   </div>
   <div class="page-actions">
     <button onclick="window.print()" class="btn btn-secondary">Print</button>
-    <a href="/reports" class="btn btn-ghost">← Reports</a>
+    <a href="<?= APP_BASE ?>/reports" class="btn btn-ghost">← Reports</a>
   </div>
 </div>
 
 <div class="card">
   <div class="table-toolbar">
-    <form method="GET" action="/reports/form12a" style="display:flex;gap:var(--space-3)">
+    <form method="GET" action="<?= APP_BASE ?>/reports/form12a" style="display:flex;gap:var(--space-3)">
       <input type="number" name="year" class="form-control" value="<?= $year ?>" min="2000" max="2100" style="width:80px">
       <select name="half" class="form-control" style="width:auto">
         <option value="1" <?= $half==1?'selected':'' ?>>Jan–Jun</option>
@@ -75,7 +75,7 @@ ob_start();
           <td><?= $i+1 ?></td>
           <td><?= Helpers::h($w['employee_code']) ?></td>
           <td><?= Helpers::h($w['first_name'].' '.$w['last_name']) ?></td>
-          <td><?= $w['date_of_birth'] ? Helpers::dateDisplay($w['date_of_birth']) : '—' ?></td>
+          <td><?= $w['dob'] ? Helpers::dateDisplay($w['dob']) : '—' ?></td>
           <td><?= ucfirst($w['gender'] ?? '—') ?></td>
           <td><?= Helpers::h($w['category_name']) ?></td>
           <td><?= Helpers::h($w['vendor_name']) ?></td>

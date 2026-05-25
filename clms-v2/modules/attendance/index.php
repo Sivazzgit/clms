@@ -53,14 +53,14 @@ ob_start();
     <p class="page-sub" style="color:var(--clr-text-muted);margin:0;"><?= $date ?> &bull; <?= $present ?> present / <?= $total ?> records</p>
   </div>
   <div class="page-actions">
-    <a href="/attendance/gate" class="btn btn-primary">Gate Entry</a>
-    <a href="/attendance/biometric" class="btn btn-secondary">Biometric Upload</a>
+    <a href="<?= APP_BASE ?>/attendance/gate" class="btn btn-primary">Gate Entry</a>
+    <a href="<?= APP_BASE ?>/attendance/biometric" class="btn btn-secondary">Biometric Upload</a>
   </div>
 </div>
 
 <div class="card">
   <div class="table-toolbar">
-    <form method="GET" action="/attendance" style="display:flex;gap:var(--space-3);flex-wrap:wrap">
+    <form method="GET" action="<?= APP_BASE ?>/attendance" style="display:flex;gap:var(--space-3);flex-wrap:wrap">
       <input type="date" name="date" class="form-control" value="<?= $date ?>" style="width:auto">
       <?php if (Auth::hasRole('hr_admin')): ?>
       <select name="vendor_id" class="form-control" style="width:auto">

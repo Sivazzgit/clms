@@ -25,8 +25,8 @@ services:
       # CLMS v2 DB
       CLMS_V2_DB_HOST: mysql
       CLMS_V2_DB_NAME: clms_v2
-      CLMS_V2_DB_USER: anahaw
-      CLMS_V2_DB_PASS: anahaw
+      CLMS_V2_DB_USER: clmsadmin
+      CLMS_V2_DB_PASS: ClmsAdmin@123
     depends_on:
       mysql:
         condition: service_healthy

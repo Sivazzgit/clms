@@ -118,10 +118,10 @@ ob_start();
   </div>
   <div class="page-actions">
     <?php if ($isEdit): ?>
-      <a href="/employees?vendor_id=<?= $id ?>" class="btn btn-ghost">View Employees</a>
-      <a href="/vendors/documents?vendor_id=<?= $id ?>" class="btn btn-ghost">Documents</a>
+      <a href="<?= APP_BASE ?>/employees?vendor_id=<?= $id ?>" class="btn btn-ghost">View Employees</a>
+      <a href="<?= APP_BASE ?>/vendors/documents?vendor_id=<?= $id ?>" class="btn btn-ghost">Documents</a>
     <?php endif; ?>
-    <a href="/vendors" class="btn btn-ghost">Cancel</a>
+    <a href="<?= APP_BASE ?>/vendors" class="btn btn-ghost">Cancel</a>
   </div>
 </div>
 
@@ -132,7 +132,7 @@ ob_start();
 <?php if ($isEdit && $record['status'] === 'pending'): ?>
 <div class="alert alert-info" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-4)">
   <span>This contractor is <strong>Pending Approval</strong>. Review details and approve to activate.</span>
-  <form method="POST" action="/vendors/<?= $id ?>/edit" style="display:inline">
+  <form method="POST" action="<?= APP_BASE ?>/vendors/<?= $id ?>/edit" style="display:inline">
     <input type="hidden" name="<?= CSRF_KEY ?>" value="<?= Helpers::h(Auth::csrfToken()) ?>">
     <input type="hidden" name="quick_status" value="active">
     <button type="submit" class="btn btn-success btn-sm">Approve &amp; Activate</button>
@@ -357,7 +357,7 @@ ob_start();
     <button type="submit" class="btn btn-primary">
       <?= $isEdit ? 'Update Contractor' : 'Add Contractor' ?>
     </button>
-    <a href="/vendors" class="btn btn-ghost">Cancel</a>
+    <a href="<?= APP_BASE ?>/vendors" class="btn btn-ghost">Cancel</a>
   </div>
 
 </form>

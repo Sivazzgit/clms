@@ -13,6 +13,9 @@ GRANT ALL PRIVILEGES ON myorgap6_bareilly.* TO 'anahaw'@'%' IDENTIFIED BY 'anaha
 GRANT ALL PRIVILEGES ON myorgap6_kancor.*   TO 'anahaw'@'%' IDENTIFIED BY 'anahaw';
 GRANT ALL PRIVILEGES ON kancor.*            TO 'anahaw'@'%' IDENTIFIED BY 'anahaw';
 GRANT ALL PRIVILEGES ON clms_v2.*           TO 'anahaw'@'%' IDENTIFIED BY 'anahaw';
+
+-- CLMS v2 dedicated user (matches production credentials)
+GRANT ALL PRIVILEGES ON clms_v2.*           TO 'clmsadmin'@'%' IDENTIFIED BY 'ClmsAdmin@123';
 FLUSH PRIVILEGES;
 
 USE anahaw;

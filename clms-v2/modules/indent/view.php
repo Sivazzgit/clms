@@ -64,10 +64,10 @@ ob_start();
   </div>
   <div class="page-actions">
     <?php if (in_array($indent['status'],['draft','submitted']) && (Auth::hasRole('section_incharge')||Auth::hasRole('hr_admin'))): ?>
-      <a href="/indent/<?= $id ?>/edit" class="btn btn-secondary">Edit</a>
+      <a href="<?= APP_BASE ?>/indent/<?= $id ?>/edit" class="btn btn-secondary">Edit</a>
     <?php endif; ?>
     <?php if ($indent['status'] === 'draft' && (Auth::hasRole('section_incharge')||Auth::hasRole('hr_admin'))): ?>
-      <form method="POST" action="/indent/action" style="display:inline">
+      <form method="POST" action="<?= APP_BASE ?>/indent/action" style="display:inline">
         <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
         <input type="hidden" name="indent_id" value="<?= $id ?>">
         <input type="hidden" name="action"    value="submit">

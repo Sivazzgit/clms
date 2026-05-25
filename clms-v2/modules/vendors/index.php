@@ -50,7 +50,7 @@ ob_start();
     <p class="page-sub" style="color:var(--clr-text-muted);margin:0;"><?= number_format($total) ?> contractor(s)</p>
   </div>
   <div class="page-actions">
-    <a href="/vendors/create" class="btn btn-primary">
+    <a href="<?= APP_BASE ?>/vendors/create" class="btn btn-primary">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       Add Contractor
     </a>
@@ -67,7 +67,7 @@ ob_start();
 <div class="card">
   <!-- Toolbar -->
   <div class="table-toolbar">
-    <form method="GET" action="/vendors" style="display:flex;gap:var(--space-3);flex-wrap:wrap;">
+    <form method="GET" action="<?= APP_BASE ?>/vendors" style="display:flex;gap:var(--space-3);flex-wrap:wrap;">
       <input type="search" name="q" class="table-search" placeholder="Search name, code, contact…" value="<?= Helpers::h($search) ?>">
       <select name="status" class="form-control" style="width:auto;">
         <option value="">All Status</option>
@@ -78,7 +78,7 @@ ob_start();
       </select>
       <button type="submit" class="btn btn-secondary">Filter</button>
       <?php if ($search || $status): ?>
-        <a href="/vendors" class="btn btn-ghost">Clear</a>
+        <a href="<?= APP_BASE ?>/vendors" class="btn btn-ghost">Clear</a>
       <?php endif; ?>
     </form>
     <button type="button" class="btn btn-ghost btn-sm" onclick="CLMS.export.csv('vendorTable','contractors-export')">
@@ -111,7 +111,7 @@ ob_start();
         <tr>
           <td><code><?= Helpers::h($v['vendor_code']) ?></code></td>
           <td>
-            <a href="/vendors/<?= $v['id'] ?>/edit" style="font-weight:500"><?= Helpers::h($v['name']) ?></a>
+            <a href="<?= APP_BASE ?>/vendors/<?= $v['id'] ?>/edit" style="font-weight:500"><?= Helpers::h($v['name']) ?></a>
           </td>
           <td><?= Helpers::h($v['contact_person'] ?? '—') ?></td>
           <td><?= Helpers::h($v['mobile'] ?? '—') ?></td>
@@ -150,10 +150,10 @@ ob_start();
           </td>
           <td>
             <div style="display:flex;gap:var(--space-2)">
-              <a href="/vendors/<?= $v['id'] ?>/edit" class="btn btn-secondary btn-sm" title="Edit">
+              <a href="<?= APP_BASE ?>/vendors/<?= $v['id'] ?>/edit" class="btn btn-secondary btn-sm" title="Edit">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
               </a>
-              <a href="/vendors/documents?vendor_id=<?= $v['id'] ?>" class="btn btn-ghost btn-sm" title="Documents">
+              <a href="<?= APP_BASE ?>/vendors/documents?vendor_id=<?= $v['id'] ?>" class="btn btn-ghost btn-sm" title="Documents">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
               </a>
               <?php if ($v['active_employees'] == 0): ?>

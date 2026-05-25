@@ -45,7 +45,7 @@ ob_start();
     <p class="page-sub" style="color:var(--clr-text-muted);margin:0;"><?= count($pending) ?> employee(s) awaiting approval</p>
   </div>
   <div class="page-actions">
-    <a href="/employees" class="btn btn-ghost">Back to Employee Master</a>
+    <a href="<?= APP_BASE ?>/employees" class="btn btn-ghost">Back to Employee Master</a>
   </div>
 </div>
 
@@ -53,7 +53,7 @@ ob_start();
   <div class="alert alert-info">No employees pending approval. All caught up!</div>
 <?php else: ?>
 
-<form method="POST" action="/employees/pending">
+<form method="POST" action="<?= APP_BASE ?>/employees/pending">
   <input type="hidden" name="<?= CSRF_KEY ?>" value="<?= Helpers::h(Auth::csrfToken()) ?>">
 
   <div class="card">
@@ -92,7 +92,7 @@ ob_start();
             <td><input type="checkbox" name="emp_ids[]" value="<?= $emp['id'] ?>" class="emp-check"></td>
             <td><code><?= Helpers::h($emp['employee_code']) ?></code></td>
             <td>
-              <a href="/employees/<?= $emp['id'] ?>/edit" style="font-weight:500"><?= Helpers::h($fullName) ?></a>
+              <a href="<?= APP_BASE ?>/employees/<?= $emp['id'] ?>/edit" style="font-weight:500"><?= Helpers::h($fullName) ?></a>
               <?php if ($emp['aadhaar_no']): ?>
                 <small style="color:var(--clr-text-muted);display:block">Aadhaar: <?= substr($emp['aadhaar_no'], 0, 4) ?>XXXX<?= substr($emp['aadhaar_no'], -4) ?></small>
               <?php endif; ?>
@@ -108,7 +108,7 @@ ob_start();
             <td><span style="font-size:var(--text-xs);color:var(--clr-text-muted)"><?= Helpers::dateDisplay($emp['created_at']) ?></span></td>
             <td>
               <div style="display:flex;gap:var(--space-2)">
-                <a href="/employees/<?= $emp['id'] ?>/edit" class="btn btn-secondary btn-sm" title="View/Edit">
+                <a href="<?= APP_BASE ?>/employees/<?= $emp['id'] ?>/edit" class="btn btn-secondary btn-sm" title="View/Edit">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                 </a>
                 <button type="button"

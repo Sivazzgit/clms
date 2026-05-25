@@ -35,20 +35,20 @@ ob_start();
     <p class="page-sub" style="color:var(--clr-text-muted);margin:0"><?= number_format($total) ?> period(s)</p>
   </div>
   <div class="page-actions">
-    <a href="/billing/generate" class="btn btn-primary">Generate Bill</a>
+    <a href="<?= APP_BASE ?>/billing/generate" class="btn btn-primary">Generate Bill</a>
   </div>
 </div>
 
 <div class="card">
   <div class="table-toolbar">
-    <form method="GET" action="/billing" style="display:flex;gap:var(--space-3)">
+    <form method="GET" action="<?= APP_BASE ?>/billing" style="display:flex;gap:var(--space-3)">
       <select name="vendor_id" class="form-control" style="width:auto" onchange="this.form.submit()">
         <option value="">All Vendors</option>
         <?php foreach ($vendors as $v): ?>
           <option value="<?= $v['id'] ?>" <?= $filterVendor==$v['id']?'selected':'' ?>><?= Helpers::h($v['name']) ?></option>
         <?php endforeach; ?>
       </select>
-      <?php if ($filterVendor): ?><a href="/billing" class="btn btn-ghost">Clear</a><?php endif; ?>
+      <?php if ($filterVendor): ?><a href="<?= APP_BASE ?>/billing" class="btn btn-ghost">Clear</a><?php endif; ?>
     </form>
   </div>
   <div class="table-wrapper">
@@ -65,7 +65,7 @@ ob_start();
           <td>₹<?= number_format((float)$p['deduction_amount'], 2) ?></td>
           <td>₹<?= number_format((float)$p['net_amount'], 2) ?></td>
           <td><span class="badge badge-pending"><?= ucwords($p['status']) ?></span></td>
-          <td><a href="/billing/<?= $p['id'] ?>/view" class="btn btn-secondary btn-sm">View</a></td>
+          <td><a href="<?= APP_BASE ?>/billing/<?= $p['id'] ?>/view" class="btn btn-secondary btn-sm">View</a></td>
         </tr>
         <?php endforeach; ?>
         <?php if (!$periods): ?>

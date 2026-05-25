@@ -130,7 +130,7 @@ ob_start();
 <?php foreach ($alerts as $al): ?>
 <div class="alert alert-<?= $al['type'] ?>" style="margin-bottom:var(--space-4)">
   <?= Helpers::h($al['msg']) ?>
-  <a href="<?= Helpers::h($al['url']) ?>" style="margin-left:var(--space-3);font-weight:600;">View &rarr;</a>
+  <a href="<?= Helpers::h(APP_BASE . $al['url']) ?>" style="margin-left:var(--space-3);font-weight:600;">View &rarr;</a>
 </div>
 <?php endforeach; ?>
 
@@ -174,7 +174,7 @@ ob_start();
     <div class="card-body" style="padding:var(--space-4)">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3)">
         <?php foreach ($quick as $q): ?>
-        <a href="<?= Helpers::h($q['url']) ?>" class="btn btn-secondary" style="justify-content:flex-start;gap:var(--space-2)">
+        <a href="<?= Helpers::h(APP_BASE . $q['url']) ?>" class="btn btn-secondary" style="justify-content:flex-start;gap:var(--space-2)">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <?php
               $qicons = [

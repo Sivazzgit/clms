@@ -49,7 +49,7 @@ ob_start();
     <p class="page-sub" style="color:var(--clr-text-muted);margin:0;"><?= number_format($total) ?> user(s)</p>
   </div>
   <div class="page-actions">
-    <a href="/users/create" class="btn btn-primary">
+    <a href="<?= APP_BASE ?>/users/create" class="btn btn-primary">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       Add User
     </a>
@@ -59,7 +59,7 @@ ob_start();
 <div class="card">
   <!-- Toolbar -->
   <div class="table-toolbar">
-    <form method="GET" action="/users" style="display:flex;gap:var(--space-3);flex-wrap:wrap;">
+    <form method="GET" action="<?= APP_BASE ?>/users" style="display:flex;gap:var(--space-3);flex-wrap:wrap;">
       <input type="search" name="q" class="table-search" placeholder="Search name, username, email…" value="<?= Helpers::h($search) ?>">
       <select name="status" class="form-control" style="width:auto;">
         <option value="">All Status</option>
@@ -69,7 +69,7 @@ ob_start();
       </select>
       <button type="submit" class="btn btn-secondary">Filter</button>
       <?php if ($search || $status): ?>
-        <a href="/users" class="btn btn-ghost">Clear</a>
+        <a href="<?= APP_BASE ?>/users" class="btn btn-ghost">Clear</a>
       <?php endif; ?>
     </form>
     <button type="button" class="btn btn-ghost btn-sm" onclick="CLMS.export.csv('usersTable','users-export')">
@@ -116,10 +116,10 @@ ob_start();
           <td><?= $u['last_login_at'] ? Helpers::dateDisplay($u['last_login_at']) : '—' ?></td>
           <td>
             <div style="display:flex;gap:var(--space-2)">
-              <a href="/users/<?= $u['id'] ?>/edit" class="btn btn-secondary btn-sm" title="Edit">
+              <a href="<?= APP_BASE ?>/users/<?= $u['id'] ?>/edit" class="btn btn-secondary btn-sm" title="Edit">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
               </a>
-              <form method="POST" action="/users/<?= $u['id'] ?>/toggle-block" style="display:inline">
+              <form method="POST" action="<?= APP_BASE ?>/users/<?= $u['id'] ?>/toggle-block" style="display:inline">
                 <input type="hidden" name="<?= CSRF_KEY ?>" value="<?= Helpers::h(Auth::csrfToken()) ?>">
                 <button type="submit" class="btn btn-ghost btn-sm" title="<?= $u['is_blocked'] ? 'Unblock' : 'Block' ?>">
                   <?php if ($u['is_blocked']): ?>
@@ -130,7 +130,7 @@ ob_start();
                 </button>
               </form>
               <?php if (Auth::realHasRole(['super_admin', 'admin']) && !Auth::isImpersonating() && $u['id'] !== Auth::user()['id']): ?>
-              <a href="/impersonate?prefill=<?= $u['id'] ?>" class="btn btn-ghost btn-sm" title="Switch to this user"
+              <a href="<?= APP_BASE ?>/impersonate?prefill=<?= $u['id'] ?>" class="btn btn-ghost btn-sm" title="Switch to this user"
                  style="color:var(--clr-warning)">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>

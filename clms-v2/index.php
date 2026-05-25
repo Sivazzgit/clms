@@ -127,9 +127,14 @@ Router::get('/superadmin/impersonation-log',       'modules/superadmin/impersona
 // ----------------------------------------------------------------
 // Dispatch
 // ----------------------------------------------------------------
-$uri = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/') ?: '/';
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$_base = APP_BASE;
+if ($_base !== '' && str_starts_with($uri, $_base)) {
+    $uri = substr($uri, strlen($_base));
+}
+$uri = rtrim($uri, '/') ?: '/';
 if ($uri === '/') {
-    header('Location: ' . (Auth::check() ? '/dashboard' : '/login'));
+    header('Location: ' . APP_BASE . (Auth::check() ? '/dashboard' : '/login'));
     exit;
 }
 

@@ -83,14 +83,14 @@ ob_start();
 ?>
 <div class="page-header">
   <div><h1 class="page-title"><?= $plan ? 'Edit' : 'New' ?> Deployment Plan</h1></div>
-  <div class="page-actions"><a href="/deployment" class="btn btn-ghost">Cancel</a></div>
+  <div class="page-actions"><a href="<?= APP_BASE ?>/deployment" class="btn btn-ghost">Cancel</a></div>
 </div>
 
 <?php foreach ($errors as $e): ?>
   <div class="alert alert-danger" style="margin-bottom:var(--space-2)"><?= Helpers::h($e) ?></div>
 <?php endforeach; ?>
 
-<form method="POST" action="/deployment/<?= $plan ? $planId.'/edit' : 'create' ?>">
+<form method="POST" action="<?= APP_BASE ?>/deployment/<?= $plan ? $planId.'/edit' : 'create' ?>">
   <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
 
   <div class="card" style="margin-bottom:var(--space-4)">

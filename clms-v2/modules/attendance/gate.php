@@ -104,7 +104,7 @@ ob_start();
 <div class="card" style="margin-bottom:var(--space-4)">
   <div class="card-header"><h3 class="card-title">Mark Attendance — <?= $date ?></h3></div>
   <div class="card-body">
-    <form method="POST" action="/attendance/gate">
+    <form method="POST" action="<?= APP_BASE ?>/attendance/gate">
       <input type="hidden" name="csrf_token"       value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
       <input type="hidden" name="attendance_date"  value="<?= $date ?>">
       <div class="form-grid-3">

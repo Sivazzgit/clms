@@ -98,7 +98,7 @@ ob_start();
 <div class="card" style="margin-bottom:var(--space-4)">
   <div class="card-header"><h3 class="card-title"><?= $editRow ? 'Edit Wage Rate' : 'Add Wage Rate' ?></h3></div>
   <div class="card-body">
-    <form method="POST" action="/masters/wage-rates">
+    <form method="POST" action="<?= APP_BASE ?>/masters/wage-rates">
       <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
       <input type="hidden" name="action" value="save">
       <input type="hidden" name="id" value="<?= $editRow ? $editRow['id'] : 0 ?>">
@@ -160,7 +160,7 @@ ob_start();
       </div>
       <div style="display:flex;gap:var(--space-3);margin-top:var(--space-4)">
         <button type="submit" class="btn btn-primary">Save Rate</button>
-        <a href="/masters/wage-rates" class="btn btn-secondary">Cancel</a>
+        <a href="<?= APP_BASE ?>/masters/wage-rates" class="btn btn-secondary">Cancel</a>
       </div>
     </form>
   </div>
@@ -170,7 +170,7 @@ ob_start();
 <!-- Filter bar -->
 <div class="card">
   <div class="table-toolbar">
-    <form method="GET" action="/masters/wage-rates" style="display:flex;gap:var(--space-3)">
+    <form method="GET" action="<?= APP_BASE ?>/masters/wage-rates" style="display:flex;gap:var(--space-3)">
       <select name="category_id" class="form-control" style="width:auto;" onchange="this.form.submit()">
         <option value="">All Categories</option>
         <?php foreach ($categories as $cat): ?>
@@ -180,7 +180,7 @@ ob_start();
         <?php endforeach; ?>
       </select>
       <?php if ($filterCat): ?>
-        <a href="/masters/wage-rates" class="btn btn-ghost">Clear</a>
+        <a href="<?= APP_BASE ?>/masters/wage-rates" class="btn btn-ghost">Clear</a>
       <?php endif; ?>
     </form>
   </div>
@@ -204,7 +204,7 @@ ob_start();
           <td>
             <div style="display:flex;gap:var(--space-2)">
               <a href="?edit=<?= $r['id'] ?>" class="btn btn-secondary btn-sm">Edit</a>
-              <form method="POST" action="/masters/wage-rates" style="display:inline"
+              <form method="POST" action="<?= APP_BASE ?>/masters/wage-rates" style="display:inline"
                     onsubmit="return confirm('Delete this rate?')">
                 <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
                 <input type="hidden" name="action" value="delete">

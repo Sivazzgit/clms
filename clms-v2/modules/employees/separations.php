@@ -59,7 +59,7 @@ ob_start();
     </p>
   </div>
   <div class="page-actions">
-    <a href="/employees/<?= $id ?>/edit" class="btn btn-ghost">Cancel</a>
+    <a href="<?= APP_BASE ?>/employees/<?= $id ?>/edit" class="btn btn-ghost">Cancel</a>
   </div>
 </div>
 
@@ -71,7 +71,7 @@ ob_start();
 <div class="card" style="max-width:620px">
   <div class="card-header"><h2 class="card-title">Separation Details</h2></div>
   <div class="card-body">
-    <form method="POST" action="/employees/<?= $id ?>/separate">
+    <form method="POST" action="<?= APP_BASE ?>/employees/<?= $id ?>/separate">
       <input type="hidden" name="<?= CSRF_KEY ?>" value="<?= Helpers::h(Auth::csrfToken()) ?>">
 
       <!-- Employee summary -->
@@ -116,7 +116,7 @@ ob_start();
 
       <div style="display:flex;gap:var(--space-3);margin-top:var(--space-5)">
         <button type="submit" class="btn btn-danger">Confirm Separation</button>
-        <a href="/employees/<?= $id ?>/edit" class="btn btn-ghost">Cancel</a>
+        <a href="<?= APP_BASE ?>/employees/<?= $id ?>/edit" class="btn btn-ghost">Cancel</a>
       </div>
 
     </form>

@@ -177,9 +177,9 @@ ob_start();
   </div>
   <div class="page-actions">
     <?php if ($isEdit && $isAdmin && $record['status'] === 'active'): ?>
-      <a href="/employees/<?= $id ?>/separate" class="btn btn-ghost">Record Separation</a>
+      <a href="<?= APP_BASE ?>/employees/<?= $id ?>/separate" class="btn btn-ghost">Record Separation</a>
     <?php endif; ?>
-    <a href="/employees" class="btn btn-ghost">Cancel</a>
+    <a href="<?= APP_BASE ?>/employees" class="btn btn-ghost">Cancel</a>
   </div>
 </div>
 
@@ -190,7 +190,7 @@ ob_start();
 <?php if ($isEdit && $isAdmin && $record['status'] === 'pending_approval'): ?>
 <div class="alert alert-warning" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-4)">
   <span>This employee is <strong>pending approval</strong>. Review and activate when ready.</span>
-  <form method="POST" action="/employees/<?= $id ?>/approve">
+  <form method="POST" action="<?= APP_BASE ?>/employees/<?= $id ?>/approve">
     <input type="hidden" name="<?= CSRF_KEY ?>" value="<?= Helpers::h(Auth::csrfToken()) ?>">
     <button type="submit" class="btn btn-success btn-sm">Approve &amp; Activate</button>
   </form>
@@ -459,7 +459,7 @@ ob_start();
     <button type="submit" class="btn btn-primary">
       <?= $isEdit ? 'Update Employee' : 'Add Employee' ?>
     </button>
-    <a href="/employees" class="btn btn-ghost">Cancel</a>
+    <a href="<?= APP_BASE ?>/employees" class="btn btn-ghost">Cancel</a>
   </div>
 
 </form>

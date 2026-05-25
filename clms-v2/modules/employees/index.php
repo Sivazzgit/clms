@@ -78,13 +78,13 @@ ob_start();
   </div>
   <div class="page-actions">
     <?php if ($isAdmin || $isContr): ?>
-      <a href="/employees/create" class="btn btn-primary">
+      <a href="<?= APP_BASE ?>/employees/create" class="btn btn-primary">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         Add Employee
       </a>
     <?php endif; ?>
     <?php if ($isAdmin): ?>
-      <a href="/employees/upload" class="btn btn-ghost">Bulk Upload</a>
+      <a href="<?= APP_BASE ?>/employees/upload" class="btn btn-ghost">Bulk Upload</a>
     <?php endif; ?>
   </div>
 </div>
@@ -92,14 +92,14 @@ ob_start();
 <?php if ($pendingCount > 0): ?>
 <div class="alert alert-warning" style="margin-bottom:var(--space-4);display:flex;align-items:center;justify-content:space-between">
   <span><?= $pendingCount ?> employee(s) awaiting approval.</span>
-  <a href="/employees/pending" class="btn btn-secondary btn-sm">Review</a>
+  <a href="<?= APP_BASE ?>/employees/pending" class="btn btn-secondary btn-sm">Review</a>
 </div>
 <?php endif; ?>
 
 <div class="card">
   <!-- Filters -->
   <div class="table-toolbar">
-    <form method="GET" action="/employees" style="display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:flex-end;">
+    <form method="GET" action="<?= APP_BASE ?>/employees" style="display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:flex-end;">
       <input type="search" name="q" class="table-search" placeholder="Name, code, Aadhaar, mobile…" value="<?= Helpers::h($search) ?>">
 
       <?php if ($isAdmin && $vendors): ?>
@@ -130,7 +130,7 @@ ob_start();
 
       <button type="submit" class="btn btn-secondary">Filter</button>
       <?php if ($search || $status || $catId || $vendorFilter): ?>
-        <a href="/employees" class="btn btn-ghost">Clear</a>
+        <a href="<?= APP_BASE ?>/employees" class="btn btn-ghost">Clear</a>
       <?php endif; ?>
     </form>
 
@@ -178,14 +178,14 @@ ob_start();
           </td>
           <td><code><?= Helpers::h($emp['employee_code']) ?></code></td>
           <td>
-            <a href="/employees/<?= $emp['id'] ?>/edit" style="font-weight:500"><?= Helpers::h($fullName) ?></a>
+            <a href="<?= APP_BASE ?>/employees/<?= $emp['id'] ?>/edit" style="font-weight:500"><?= Helpers::h($fullName) ?></a>
             <?php if ($emp['gender']): ?>
               <small style="color:var(--clr-text-muted);display:block"><?= ucfirst($emp['gender']) ?></small>
             <?php endif; ?>
           </td>
           <td>
             <?php if ($emp['vendor_name']): ?>
-              <a href="/employees?vendor_id=<?= $vendorFilter ?>" style="font-size:var(--text-sm)">
+              <a href="<?= APP_BASE ?>/employees?vendor_id=<?= $vendorFilter ?>" style="font-size:var(--text-sm)">
                 <?= Helpers::h($emp['vendor_code']) ?>
               </a>
               <div style="font-size:var(--text-xs);color:var(--clr-text-muted)"><?= Helpers::h($emp['vendor_name']) ?></div>
@@ -203,12 +203,12 @@ ob_start();
           <td>
             <div style="display:flex;gap:var(--space-2)">
               <?php if ($isAdmin || $isContr): ?>
-              <a href="/employees/<?= $emp['id'] ?>/edit" class="btn btn-secondary btn-sm" title="Edit">
+              <a href="<?= APP_BASE ?>/employees/<?= $emp['id'] ?>/edit" class="btn btn-secondary btn-sm" title="Edit">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
               </a>
               <?php endif; ?>
               <?php if ($isAdmin && $emp['status'] === 'active'): ?>
-              <a href="/employees/<?= $emp['id'] ?>/separate" class="btn btn-ghost btn-sm" title="Separate">
+              <a href="<?= APP_BASE ?>/employees/<?= $emp['id'] ?>/separate" class="btn btn-ghost btn-sm" title="Separate">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
               </a>
               <?php endif; ?>

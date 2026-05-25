@@ -96,7 +96,7 @@ ob_start();
     </p>
   </div>
   <div class="page-actions">
-    <a href="/vendors/<?= $vendorId ?>/edit" class="btn btn-ghost">Back to Contractor</a>
+    <a href="<?= APP_BASE ?>/vendors/<?= $vendorId ?>/edit" class="btn btn-ghost">Back to Contractor</a>
   </div>
 </div>
 
@@ -109,7 +109,7 @@ ob_start();
         <?= implode('<br>', array_map('Helpers::h', $errors)) ?>
       </div>
     <?php endif; ?>
-    <form method="POST" action="/vendors/documents?vendor_id=<?= $vendorId ?>" enctype="multipart/form-data" id="uploadForm">
+    <form method="POST" action="<?= APP_BASE ?>/vendors/documents?vendor_id=<?= $vendorId ?>" enctype="multipart/form-data" id="uploadForm">
       <input type="hidden" name="<?= CSRF_KEY ?>" value="<?= Helpers::h(Auth::csrfToken()) ?>">
       <input type="hidden" name="action" value="upload">
       <div class="form-grid" style="grid-template-columns:repeat(2,1fr)">
@@ -169,7 +169,7 @@ ob_start();
         <?php $expired = $doc['expiry_date'] && $doc['expiry_date'] < date('Y-m-d'); ?>
         <tr>
           <td>
-            <a href="/<?= Helpers::h(ltrim($doc['file_path'],'/')) ?>" target="_blank" rel="noopener" style="font-weight:500">
+            <a href="<?= APP_BASE ?>/<?= Helpers::h(ltrim($doc['file_path'],'/')) ?>" target="_blank" rel="noopener" style="font-weight:500">
               <?= Helpers::h($doc['doc_name']) ?>
             </a>
           </td>
@@ -186,7 +186,7 @@ ob_start();
           <td><span style="font-size:var(--text-sm);color:var(--clr-text-muted)"><?= Helpers::dateDisplay($doc['uploaded_at']) ?></span></td>
           <?php if ($isAdmin): ?>
           <td>
-            <form method="POST" action="/vendors/documents?vendor_id=<?= $vendorId ?>" style="display:inline"
+            <form method="POST" action="<?= APP_BASE ?>/vendors/documents?vendor_id=<?= $vendorId ?>" style="display:inline"
               onsubmit="return confirm('Delete this document?')">
               <input type="hidden" name="<?= CSRF_KEY ?>" value="<?= Helpers::h(Auth::csrfToken()) ?>">
               <input type="hidden" name="action" value="delete">

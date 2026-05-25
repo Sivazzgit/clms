@@ -112,7 +112,7 @@ ob_start();
 ?>
 <div class="page-header">
   <div><h1 class="page-title">Generate Bill</h1></div>
-  <div class="page-actions"><a href="/billing" class="btn btn-ghost">Cancel</a></div>
+  <div class="page-actions"><a href="<?= APP_BASE ?>/billing" class="btn btn-ghost">Cancel</a></div>
 </div>
 
 <?php foreach ($errors as $e): ?>
@@ -121,7 +121,7 @@ ob_start();
 
 <div class="card">
   <div class="card-body">
-    <form method="POST" action="/billing/generate">
+    <form method="POST" action="<?= APP_BASE ?>/billing/generate">
       <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
       <div class="form-grid-3">
         <div class="form-group">

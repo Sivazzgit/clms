@@ -10,7 +10,11 @@ $activeMenu = $activeMenu ?? '';
 function renderSidebarItem(array $item, string $activeMenu, int $depth = 0): void
 {
     $hasSubmenu = !empty($item['submenu']);
-    $url        = htmlspecialchars($item['url']);
+    $base       = defined('APP_BASE') ? APP_BASE : '';
+    $rawUrl     = $item['url'];
+    // Prefix absolute internal paths with APP_BASE (skip # anchors and external URLs)
+    $resolvedUrl = ($rawUrl !== '#' && str_starts_with($rawUrl, '/')) ? $base . $rawUrl : $rawUrl;
+    $url        = htmlspecialchars($resolvedUrl);
     $label      = htmlspecialchars($item['label']);
     $icon       = $item['icon'] ?? 'circle';
 
@@ -42,7 +46,9 @@ function renderSidebarItem(array $item, string $activeMenu, int $depth = 0): voi
         foreach ($item['submenu'] as $sub) {
             echo '<li class="sidebar-item">';
             $subActive = ($activeMenu === ($sub['key'] ?? '')) ? ' active' : '';
-            echo '<a class="sidebar-link' . $subActive . '" href="' . htmlspecialchars($sub['url']) . '">';
+            $subRaw    = $sub['url'];
+            $subUrl    = ($subRaw !== '#' && str_starts_with($subRaw, '/')) ? $base . $subRaw : $subRaw;
+            echo '<a class="sidebar-link' . $subActive . '" href="' . htmlspecialchars($subUrl) . '">';
             echo '<span class="nav-label">' . htmlspecialchars($sub['label']) . '</span>';
             echo '</a>';
             echo '</li>';
@@ -78,7 +84,7 @@ function renderSvgIcon(string $name): string
 <aside class="clms-sidebar" id="sidebar" aria-label="Main navigation">
 
   <!-- Brand -->
-  <a href="/dashboard" class="sidebar-brand">
+  <a href="<?= defined('APP_BASE') ? APP_BASE : '' ?>/dashboard" class="sidebar-brand">
     <div class="sidebar-brand-logo">C</div>
     <div class="sidebar-brand-text">
       <span class="sidebar-brand-name">CLMS 2.0</span>
@@ -102,7 +108,7 @@ function renderSvgIcon(string $name): string
       <div class="sidebar-user-name"><?= htmlspecialchars($user['full_name'] ?? '') ?></div>
       <div class="sidebar-user-role"><?= htmlspecialchars(ucwords(str_replace('_', ' ', $primaryRole))) ?></div>
     </div>
-    <a href="/logout" title="Logout" style="color:rgba(255,255,255,.55);flex-shrink:0;">
+    <a href="<?= defined('APP_BASE') ? APP_BASE : '' ?>/logout" title="Logout" style="color:rgba(255,255,255,.55);flex-shrink:0;">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
         <polyline points="16 17 21 12 16 7"/>

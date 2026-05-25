@@ -72,7 +72,7 @@ ob_start();
             <?php endif; ?>
           </td>
           <td>
-            <a href="/superadmin/switch-company?company_id=<?= $co['id'] ?>"
+            <a href="<?= APP_BASE ?>/superadmin/switch-company?company_id=<?= $co['id'] ?>"
                class="btn btn-secondary btn-sm"
                title="Switch to this tenant and browse as super admin">
               Enter company
@@ -89,7 +89,7 @@ ob_start();
 </div>
 
 <div style="margin-top:var(--space-4)">
-  <a href="/superadmin/impersonation-log" class="btn btn-ghost">View Impersonation Log</a>
+  <a href="<?= APP_BASE ?>/superadmin/impersonation-log" class="btn btn-ghost">View Impersonation Log</a>
 </div>
 
 <?php

@@ -48,21 +48,21 @@ ob_start();
   </div>
   <?php if (Auth::hasRole('contractor')): ?>
   <div class="page-actions">
-    <a href="/deployment/create" class="btn btn-primary">New Deployment Plan</a>
+    <a href="<?= APP_BASE ?>/deployment/create" class="btn btn-primary">New Deployment Plan</a>
   </div>
   <?php endif; ?>
 </div>
 
 <div class="card">
   <div class="table-toolbar">
-    <form method="GET" action="/deployment" style="display:flex;gap:var(--space-3)">
+    <form method="GET" action="<?= APP_BASE ?>/deployment" style="display:flex;gap:var(--space-3)">
       <select name="status" class="form-control" style="width:auto" onchange="this.form.submit()">
         <option value="">All Status</option>
         <?php foreach ($statuses as $st): ?>
           <option value="<?= $st ?>" <?= $filterStatus===$st?'selected':'' ?>><?= ucwords(str_replace('_',' ',$st)) ?></option>
         <?php endforeach; ?>
       </select>
-      <?php if ($filterStatus): ?><a href="/deployment" class="btn btn-ghost">Clear</a><?php endif; ?>
+      <?php if ($filterStatus): ?><a href="<?= APP_BASE ?>/deployment" class="btn btn-ghost">Clear</a><?php endif; ?>
     </form>
   </div>
   <div class="table-wrapper">
@@ -81,7 +81,7 @@ ob_start();
           <td><?= $p['emp_count'] ?></td>
           <td><span class="badge badge-pending"><?= ucwords(str_replace('_',' ',$p['status'])) ?></span></td>
           <td>
-            <a href="/deployment/<?= $p['id'] ?>/view" class="btn btn-secondary btn-sm">View</a>
+            <a href="<?= APP_BASE ?>/deployment/<?= $p['id'] ?>/view" class="btn btn-secondary btn-sm">View</a>
           </td>
         </tr>
         <?php endforeach; ?>

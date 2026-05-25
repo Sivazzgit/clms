@@ -38,12 +38,12 @@ ob_start();
 ?>
 <div class="page-header">
   <div><h1 class="page-title">Indent vs Deployment</h1></div>
-  <div class="page-actions"><a href="/reports" class="btn btn-ghost">← Reports</a></div>
+  <div class="page-actions"><a href="<?= APP_BASE ?>/reports" class="btn btn-ghost">← Reports</a></div>
 </div>
 
 <div class="card">
   <div class="table-toolbar">
-    <form method="GET" action="/reports/indent-deployment" style="display:flex;gap:var(--space-3)">
+    <form method="GET" action="<?= APP_BASE ?>/reports/indent-deployment" style="display:flex;gap:var(--space-3)">
       <input type="date" name="from_date" class="form-control" value="<?= $fromDate ?>">
       <input type="date" name="to_date"   class="form-control" value="<?= $toDate ?>">
       <select name="section_id" class="form-control" style="width:auto">
@@ -61,7 +61,7 @@ ob_start();
             $gap = $r['required'] - $r['deployed'];
         ?>
         <tr>
-          <td><a href="/indent/<?= /* need indent id */ '0' ?>/view"><?= Helpers::h($r['indent_no']) ?></a></td>
+          <td><a href="<?= APP_BASE ?>/indent/<?= /* need indent id */ '0' ?>/view"><?= Helpers::h($r['indent_no']) ?></a></td>
           <td><?= Helpers::h($r['section_name']) ?></td>
           <td><?= Helpers::dateDisplay($r['start_date']) ?></td>
           <td><?= Helpers::dateDisplay($r['end_date']) ?></td>

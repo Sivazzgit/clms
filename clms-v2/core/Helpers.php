@@ -99,6 +99,10 @@ class Helpers
     public static function redirect(string $url, ?string $flash = null, string $type = 'success'): never
     {
         if ($flash) $_SESSION["flash_$type"] = $flash;
+        // Prepend APP_BASE for internal absolute paths (starting with /)
+        if (str_starts_with($url, '/') && APP_BASE !== '') {
+            $url = APP_BASE . $url;
+        }
         header("Location: $url");
         exit;
     }

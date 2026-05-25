@@ -162,8 +162,8 @@ ob_start();
     </p>
   </div>
   <div class="page-actions">
-    <a href="/employees" class="btn btn-ghost">← Back to Employees</a>
-    <a href="/employees/upload?template=1" class="btn btn-secondary">
+    <a href="<?= APP_BASE ?>/employees" class="btn btn-ghost">← Back to Employees</a>
+    <a href="<?= APP_BASE ?>/employees/upload?template=1" class="btn btn-secondary">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Download Template
     </a>
@@ -196,8 +196,8 @@ ob_start();
       </details>
     <?php endif; ?>
     <div style="margin-top:var(--space-4)">
-      <a href="/employees/pending" class="btn btn-primary">Review Pending Approvals</a>
-      <a href="/employees/upload" class="btn btn-ghost" style="margin-left:var(--space-2)">Upload Another</a>
+      <a href="<?= APP_BASE ?>/employees/pending" class="btn btn-primary">Review Pending Approvals</a>
+      <a href="<?= APP_BASE ?>/employees/upload" class="btn btn-ghost" style="margin-left:var(--space-2)">Upload Another</a>
     </div>
   </div>
 </div>
@@ -208,7 +208,7 @@ ob_start();
     <h3 class="card-title">Upload CSV</h3>
   </div>
   <div class="card-body" style="max-width:540px">
-    <form method="POST" action="/employees/upload" enctype="multipart/form-data" novalidate>
+    <form method="POST" action="<?= APP_BASE ?>/employees/upload" enctype="multipart/form-data" novalidate>
       <input type="hidden" name="<?= CSRF_KEY ?>" value="<?= Helpers::h(Auth::csrfToken()) ?>">
 
       <div class="form-group">

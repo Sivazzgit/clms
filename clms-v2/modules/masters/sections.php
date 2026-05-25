@@ -89,7 +89,7 @@ ob_start();
 <div class="card" style="margin-bottom:var(--space-4)">
   <div class="card-header"><h3 class="card-title"><?= $editRow ? 'Edit Section' : 'Add Section' ?></h3></div>
   <div class="card-body">
-    <form method="POST" action="/masters/sections">
+    <form method="POST" action="<?= APP_BASE ?>/masters/sections">
       <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
       <input type="hidden" name="action" value="save">
       <input type="hidden" name="id" value="<?= $editRow ? $editRow['id'] : 0 ?>">
@@ -124,7 +124,7 @@ ob_start();
       </div>
       <div style="display:flex;gap:var(--space-3);margin-top:var(--space-4)">
         <button type="submit" class="btn btn-primary">Save Section</button>
-        <a href="/masters/sections" class="btn btn-secondary">Cancel</a>
+        <a href="<?= APP_BASE ?>/masters/sections" class="btn btn-secondary">Cancel</a>
       </div>
     </form>
   </div>
@@ -148,13 +148,13 @@ ob_start();
           <td>
             <div style="display:flex;gap:var(--space-2)">
               <a href="?edit=<?= $s['id'] ?>" class="btn btn-secondary btn-sm">Edit</a>
-              <form method="POST" action="/masters/sections" style="display:inline">
+              <form method="POST" action="<?= APP_BASE ?>/masters/sections" style="display:inline">
                 <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
                 <input type="hidden" name="action" value="toggle">
                 <input type="hidden" name="id" value="<?= $s['id'] ?>">
                 <button type="submit" class="btn btn-ghost btn-sm"><?= $s['is_active'] ? 'Disable' : 'Enable' ?></button>
               </form>
-              <form method="POST" action="/masters/sections" style="display:inline"
+              <form method="POST" action="<?= APP_BASE ?>/masters/sections" style="display:inline"
                     onsubmit="return confirm('Delete this section?')">
                 <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
                 <input type="hidden" name="action" value="delete">

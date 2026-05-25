@@ -63,14 +63,14 @@ ob_start();
     <p class="page-sub" style="color:var(--clr-text-muted);margin:0"><?= number_format($total) ?> event(s)</p>
   </div>
   <div class="page-actions">
-    <a href="/superadmin" class="btn btn-ghost btn-sm">← Super Admin</a>
+    <a href="<?= APP_BASE ?>/superadmin" class="btn btn-ghost btn-sm">← Super Admin</a>
   </div>
 </div>
 
 <div class="card">
   <!-- Filters -->
   <div class="table-toolbar">
-    <form method="GET" action="/superadmin/impersonation-log"
+    <form method="GET" action="<?= APP_BASE ?>/superadmin/impersonation-log"
           style="display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:flex-end">
       <div>
         <label class="form-label" style="font-size:var(--text-xs)">Actor user ID</label>
@@ -91,7 +91,7 @@ ob_start();
         <input type="date" name="to" class="form-control" value="<?= Helpers::h($filterTo) ?>">
       </div>
       <button type="submit" class="btn btn-secondary">Filter</button>
-      <a href="/superadmin/impersonation-log" class="btn btn-ghost">Clear</a>
+      <a href="<?= APP_BASE ?>/superadmin/impersonation-log" class="btn btn-ghost">Clear</a>
     </form>
   </div>
 

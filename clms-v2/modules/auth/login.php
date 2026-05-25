@@ -41,8 +41,8 @@ $token = Auth::csrfToken();
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/theme.css">
-  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="<?= APP_BASE ?>/assets/css/theme.css">
+  <link rel="stylesheet" href="<?= APP_BASE ?>/assets/css/components.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     body {
@@ -169,7 +169,7 @@ $token = Auth::csrfToken();
         </div>
       <?php endif; ?>
 
-      <form method="POST" action="/login" id="loginForm" novalidate>
+      <form method="POST" action="<?= APP_BASE ?>/login" id="loginForm" novalidate>
         <input type="hidden" name="<?= CSRF_KEY ?>" value="<?= Helpers::h($token) ?>">
 
         <div class="form-group">
@@ -217,7 +217,7 @@ $token = Auth::csrfToken();
 
     <!-- Footer -->
     <div class="login-footer">
-      Muthiah Beverage and Confectionery (Pvt) Ltd &mdash; Kancor &copy; <?= date('Y') ?>
+      Muthiah Beverage and Confectionery (Pvt) Ltd &mdash; RCS &copy; <?= date('Y') ?>
     </div>
 
   </div><!-- .login-card -->
@@ -225,8 +225,8 @@ $token = Auth::csrfToken();
 
 <div id="toast-container"></div>
 
-<script src="/assets/js/utils.js"></script>
-<script src="/assets/js/forms.js"></script>
+<script src="<?= APP_BASE ?>/assets/js/utils.js"></script>
+<script src="<?= APP_BASE ?>/assets/js/forms.js"></script>
 <script>
   // Password visibility toggle
   document.getElementById('togglePwd').addEventListener('click', function () {

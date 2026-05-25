@@ -52,9 +52,9 @@ ob_start();
   </div>
   <div class="page-actions">
     <?php if ($plan['status']==='submitted' && Auth::hasRole('contractor')): ?>
-      <a href="/deployment/<?= $planId ?>/edit" class="btn btn-secondary">Edit</a>
+      <a href="<?= APP_BASE ?>/deployment/<?= $planId ?>/edit" class="btn btn-secondary">Edit</a>
     <?php endif; ?>
-    <a href="/deployment" class="btn btn-ghost">Back</a>
+    <a href="<?= APP_BASE ?>/deployment" class="btn btn-ghost">Back</a>
   </div>
 </div>
 
@@ -119,7 +119,7 @@ ob_start();
 <?php if ($plan['status']==='submitted' && Auth::hasRole('section_incharge')): ?>
 <div class="card">
   <div class="card-body">
-    <form method="POST" action="/deployment/action">
+    <form method="POST" action="<?= APP_BASE ?>/deployment/action">
       <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
       <input type="hidden" name="plan_id" value="<?= $planId ?>">
       <div class="form-group" style="max-width:400px">
@@ -139,7 +139,7 @@ ob_start();
 <?php if ($plan['status']==='ic_reviewed' && Auth::hasRole('hod')): ?>
 <div class="card">
   <div class="card-body">
-    <form method="POST" action="/deployment/action">
+    <form method="POST" action="<?= APP_BASE ?>/deployment/action">
       <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
       <input type="hidden" name="plan_id" value="<?= $planId ?>">
       <div class="form-group" style="max-width:400px">
@@ -159,7 +159,7 @@ ob_start();
 <?php if ($plan['status']==='hod_accepted' && Auth::hasRole('plant_head')): ?>
 <div class="card">
   <div class="card-body">
-    <form method="POST" action="/deployment/action">
+    <form method="POST" action="<?= APP_BASE ?>/deployment/action">
       <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
       <input type="hidden" name="plan_id" value="<?= $planId ?>">
       <div class="form-group" style="max-width:400px">

@@ -205,7 +205,7 @@ $title = $isEdit ? 'Edit Indent' : 'New Indent';
   <div style="display:flex;gap:var(--space-3)">
     <button type="submit" name="submit_action" value="draft" class="btn btn-secondary">Save as Draft</button>
     <button type="submit" name="submit_action" value="submit" class="btn btn-primary">Submit for Approval</button>
-    <a href="/indent" class="btn btn-ghost">Cancel</a>
+    <a href="<?= APP_BASE ?>/indent" class="btn btn-ghost">Cancel</a>
   </div>
 </form>
 

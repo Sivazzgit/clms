@@ -53,7 +53,7 @@ ob_start();
 ?>
 <div class="page-header">
   <div><h1 class="page-title">Record Payment — <?= Helpers::h($period['vendor_name']) ?></h1></div>
-  <div class="page-actions"><a href="/billing/<?= $billingId ?>/view" class="btn btn-ghost">Cancel</a></div>
+  <div class="page-actions"><a href="<?= APP_BASE ?>/billing/<?= $billingId ?>/view" class="btn btn-ghost">Cancel</a></div>
 </div>
 
 <?php foreach ($errors as $e): ?>
@@ -63,7 +63,7 @@ ob_start();
 <div class="card">
   <div class="card-body">
     <p>Net Payable: <strong>₹<?= number_format((float)$period['net_amount'],2) ?></strong></p>
-    <form method="POST" action="/billing/<?= $billingId ?>/payment">
+    <form method="POST" action="<?= APP_BASE ?>/billing/<?= $billingId ?>/payment">
       <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
       <div class="form-grid-3">
         <div class="form-group">

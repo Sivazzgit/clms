@@ -44,14 +44,14 @@ ob_start();
   </div>
   <div class="page-actions">
     <?php if ($period['status']==='draft'): ?>
-    <form method="POST" action="/billing/action" style="display:inline">
+    <form method="POST" action="<?= APP_BASE ?>/billing/action" style="display:inline">
       <input type="hidden" name="csrf_token"      value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
       <input type="hidden" name="billing_id"      value="<?= $billingId ?>">
       <input type="hidden" name="action"          value="submit">
       <button type="submit" class="btn btn-primary">Submit for Approval</button>
     </form>
     <?php endif; ?>
-    <a href="/billing" class="btn btn-ghost">Back</a>
+    <a href="<?= APP_BASE ?>/billing" class="btn btn-ghost">Back</a>
   </div>
 </div>
 
@@ -92,7 +92,7 @@ ob_start();
   <div class="card-header">
     <h3 class="card-title">Payments</h3>
     <?php if (in_array($period['status'],['approved','paid','partially_paid'])): ?>
-    <a href="/billing/<?= $billingId ?>/payment" class="btn btn-primary btn-sm">Record Payment</a>
+    <a href="<?= APP_BASE ?>/billing/<?= $billingId ?>/payment" class="btn btn-primary btn-sm">Record Payment</a>
     <?php endif; ?>
   </div>
   <div class="table-wrapper">

@@ -79,11 +79,11 @@ ob_start();
 <?php if (Auth::isImpersonating()): ?>
   <div class="alert alert-warning" style="margin-bottom:var(--space-4)">
     You are already impersonating <strong><?= Helpers::h($_SESSION['full_name']) ?></strong>.
-    <a href="/impersonate/exit" style="margin-left:var(--space-3)">Exit impersonation first</a>.
+    <a href="<?= APP_BASE ?>/impersonate/exit" style="margin-left:var(--space-3)">Exit impersonation first</a>.
   </div>
 <?php endif; ?>
 
-<form method="POST" action="/impersonate" id="impersonateForm">
+<form method="POST" action="<?= APP_BASE ?>/impersonate" id="impersonateForm">
   <input type="hidden" name="<?= CSRF_KEY ?>" value="<?= Helpers::h(Auth::csrfToken()) ?>">
   <input type="hidden" name="target_user_id" id="targetUserId" value="">
 

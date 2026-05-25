@@ -421,7 +421,7 @@ class Auth
     private static function redirectToLogin(string $message = ''): void
     {
         if ($message) $_SESSION['flash_error'] = $message;
-        header('Location: /login');
+        header('Location: ' . APP_BASE . '/login');
         exit;
     }
 

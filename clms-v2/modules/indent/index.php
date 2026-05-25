@@ -63,7 +63,7 @@ ob_start();
   </div>
   <?php if (Auth::hasRole('section_incharge') || Auth::hasRole('hr_admin')): ?>
   <div class="page-actions">
-    <a href="/indent/create" class="btn btn-primary">
+    <a href="<?= APP_BASE ?>/indent/create" class="btn btn-primary">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       New Indent
     </a>
@@ -73,7 +73,7 @@ ob_start();
 
 <div class="card">
   <div class="table-toolbar">
-    <form method="GET" action="/indent" style="display:flex;gap:var(--space-3);flex-wrap:wrap;">
+    <form method="GET" action="<?= APP_BASE ?>/indent" style="display:flex;gap:var(--space-3);flex-wrap:wrap;">
       <input type="search" name="q" class="table-search" placeholder="Search indent no, section…" value="<?= Helpers::h($search) ?>">
       <select name="status" class="form-control" style="width:auto;" onchange="this.form.submit()">
         <option value="">All Status</option>
@@ -82,7 +82,7 @@ ob_start();
         <?php endforeach; ?>
       </select>
       <button type="submit" class="btn btn-secondary">Filter</button>
-      <?php if ($search || $filterStatus): ?><a href="/indent" class="btn btn-ghost">Clear</a><?php endif; ?>
+      <?php if ($search || $filterStatus): ?><a href="<?= APP_BASE ?>/indent" class="btn btn-ghost">Clear</a><?php endif; ?>
     </form>
   </div>
   <div class="table-wrapper">
@@ -96,7 +96,7 @@ ob_start();
       <tbody>
         <?php foreach ($indents as $ind): ?>
         <tr>
-          <td><a href="/indent/<?= $ind['id'] ?>/view"><?= Helpers::h($ind['indent_no']) ?></a></td>
+          <td><a href="<?= APP_BASE ?>/indent/<?= $ind['id'] ?>/view"><?= Helpers::h($ind['indent_no']) ?></a></td>
           <td><?= Helpers::h($ind['section_name']) ?></td>
           <td><?= Helpers::dateDisplay($ind['start_date']) ?> – <?= Helpers::dateDisplay($ind['end_date']) ?></td>
           <td><?= ucfirst($ind['indent_type'] ?? 'range') ?></td>
@@ -105,9 +105,9 @@ ob_start();
           <td><?= Helpers::h($ind['created_by_name']) ?></td>
           <td>
             <div style="display:flex;gap:var(--space-2)">
-              <a href="/indent/<?= $ind['id'] ?>/view" class="btn btn-secondary btn-sm">View</a>
+              <a href="<?= APP_BASE ?>/indent/<?= $ind['id'] ?>/view" class="btn btn-secondary btn-sm">View</a>
               <?php if (in_array($ind['status'], ['draft','submitted']) && (Auth::hasRole('section_incharge') || Auth::hasRole('hr_admin'))): ?>
-                <a href="/indent/<?= $ind['id'] ?>/edit" class="btn btn-ghost btn-sm">Edit</a>
+                <a href="<?= APP_BASE ?>/indent/<?= $ind['id'] ?>/edit" class="btn btn-ghost btn-sm">Edit</a>
               <?php endif; ?>
             </div>
           </td>
@@ -119,13 +119,13 @@ ob_start();
       </tbody>
     </table>
   </div>
-  <?php if ($pager['pages'] > 1): ?>
+  <?php if ($pager['totalPages'] > 1): ?>
   <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--space-4);border-top:var(--border-base)">
     <nav class="pagination">
-      <?php for ($p = 1; $p <= $pager['pages']; $p++): ?>
+      <?php foreach ($pager['pages'] as $p): ?>
         <a href="?page=<?= $p ?>&status=<?= urlencode($filterStatus) ?>&q=<?= urlencode($search) ?>"
-           class="page-link <?= $p === $pager['page'] ? 'active' : '' ?>"><?= $p ?></a>
-      <?php endfor; ?>
+           class="page-link <?= $p === $pager['current'] ? 'active' : '' ?>"><?= $p ?></a>
+      <?php endforeach; ?>
     </nav>
     <span style="font-size:var(--text-sm);color:var(--clr-text-muted)">
       <?= ($pager['offset']+1) ?>–<?= min($pager['offset']+$pager['perPage'],$total) ?> of <?= $total ?>

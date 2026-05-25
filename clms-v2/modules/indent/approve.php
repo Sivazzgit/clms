@@ -33,7 +33,7 @@ ob_start();
       <tbody>
         <?php foreach ($pending as $ind): ?>
         <tr>
-          <td><a href="/indent/<?= $ind['id'] ?>/view"><?= Helpers::h($ind['indent_no']) ?></a></td>
+          <td><a href="<?= APP_BASE ?>/indent/<?= $ind['id'] ?>/view"><?= Helpers::h($ind['indent_no']) ?></a></td>
           <td><?= Helpers::h($ind['section_name']) ?></td>
           <td><?= Helpers::dateDisplay($ind['start_date']) ?> – <?= Helpers::dateDisplay($ind['end_date']) ?></td>
           <td><?= $ind['line_count'] ?></td>
@@ -41,13 +41,13 @@ ob_start();
           <td><?= Helpers::h($ind['created_by_name']) ?></td>
           <td>
             <div style="display:flex;gap:var(--space-2)">
-              <form method="POST" action="/indent/action" style="display:inline">
+              <form method="POST" action="<?= APP_BASE ?>/indent/action" style="display:inline">
                 <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
                 <input type="hidden" name="indent_id"  value="<?= $ind['id'] ?>">
                 <input type="hidden" name="action"     value="hod_review">
                 <button type="submit" class="btn btn-primary btn-sm">Approve</button>
               </form>
-              <form method="POST" action="/indent/action" style="display:inline"
+              <form method="POST" action="<?= APP_BASE ?>/indent/action" style="display:inline"
                     onsubmit="return confirm('Reject this indent?')">
                 <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
                 <input type="hidden" name="indent_id"  value="<?= $ind['id'] ?>">

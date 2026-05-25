@@ -121,7 +121,7 @@ ob_start();
     <h1 class="page-title"><?= $title ?></h1>
   </div>
   <div class="page-actions">
-    <a href="/users" class="btn btn-ghost">Cancel</a>
+    <a href="<?= APP_BASE ?>/users" class="btn btn-ghost">Cancel</a>
   </div>
 </div>
 
@@ -279,7 +279,7 @@ ob_start();
     <button type="submit" class="btn btn-primary">
       <?= $isEdit ? 'Update User' : 'Create User' ?>
     </button>
-    <a href="/users" class="btn btn-ghost">Cancel</a>
+    <a href="<?= APP_BASE ?>/users" class="btn btn-ghost">Cancel</a>
   </div>
 
 </form>

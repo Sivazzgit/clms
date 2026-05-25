@@ -48,8 +48,8 @@ $token = Auth::csrfToken();
   <title>Change Password — CLMS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/theme.css">
-  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="<?= APP_BASE ?>/assets/css/theme.css">
+  <link rel="stylesheet" href="<?= APP_BASE ?>/assets/css/components.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     body { margin: 0; font-family: var(--font-body); background: var(--clr-bg); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: var(--space-4); }
@@ -72,7 +72,7 @@ $token = Auth::csrfToken();
       <?php unset($_SESSION['flash_error']); ?>
     <?php endif; ?>
 
-    <form method="POST" action="/change-password" novalidate>
+    <form method="POST" action="<?= APP_BASE ?>/change-password" novalidate>
       <input type="hidden" name="<?= CSRF_KEY ?>" value="<?= Helpers::h($token) ?>">
 
       <div class="form-group">

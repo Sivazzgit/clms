@@ -46,12 +46,12 @@ ob_start();
 ?>
 <div class="page-header">
   <div><h1 class="page-title">Muster Roll</h1></div>
-  <div class="page-actions"><a href="/reports" class="btn btn-ghost">← Reports</a></div>
+  <div class="page-actions"><a href="<?= APP_BASE ?>/reports" class="btn btn-ghost">← Reports</a></div>
 </div>
 
 <div class="card">
   <div class="table-toolbar">
-    <form method="GET" action="/reports/muster-roll" style="display:flex;gap:var(--space-3);flex-wrap:wrap">
+    <form method="GET" action="<?= APP_BASE ?>/reports/muster-roll" style="display:flex;gap:var(--space-3);flex-wrap:wrap">
       <input type="date" name="from_date" class="form-control" value="<?= $fromDate ?>">
       <input type="date" name="to_date"   class="form-control" value="<?= $toDate ?>">
       <select name="section_id" class="form-control" style="width:auto">

@@ -82,7 +82,7 @@ ob_start();
 <div class="card" style="margin-bottom:var(--space-4)">
   <div class="card-header"><h3 class="card-title"><?= $editRow ? 'Edit Holiday' : 'Add Holiday' ?></h3></div>
   <div class="card-body">
-    <form method="POST" action="/masters/holidays">
+    <form method="POST" action="<?= APP_BASE ?>/masters/holidays">
       <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
       <input type="hidden" name="action" value="save">
       <input type="hidden" name="id" value="<?= $editRow ? $editRow['id'] : 0 ?>">
@@ -116,7 +116,7 @@ ob_start();
       </div>
       <div style="display:flex;gap:var(--space-3);margin-top:var(--space-4)">
         <button type="submit" class="btn btn-primary">Save Holiday</button>
-        <a href="/masters/holidays?year=<?= $filterYear ?>" class="btn btn-secondary">Cancel</a>
+        <a href="<?= APP_BASE ?>/masters/holidays?year=<?= $filterYear ?>" class="btn btn-secondary">Cancel</a>
       </div>
     </form>
   </div>
@@ -125,7 +125,7 @@ ob_start();
 
 <div class="card">
   <div class="table-toolbar">
-    <form method="GET" action="/masters/holidays" style="display:flex;gap:var(--space-3)">
+    <form method="GET" action="<?= APP_BASE ?>/masters/holidays" style="display:flex;gap:var(--space-3)">
       <select name="year" class="form-control" style="width:auto;" onchange="this.form.submit()">
         <?php foreach ($years as $y): ?>
           <option value="<?= $y ?>" <?= $filterYear === $y ? 'selected' : '' ?>><?= $y ?></option>
@@ -150,7 +150,7 @@ ob_start();
           <td>
             <div style="display:flex;gap:var(--space-2)">
               <a href="?edit=<?= $h['id'] ?>&year=<?= $filterYear ?>" class="btn btn-secondary btn-sm">Edit</a>
-              <form method="POST" action="/masters/holidays" style="display:inline"
+              <form method="POST" action="<?= APP_BASE ?>/masters/holidays" style="display:inline"
                     onsubmit="return confirm('Delete this holiday?')">
                 <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
                 <input type="hidden" name="action" value="delete">

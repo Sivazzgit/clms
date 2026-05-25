@@ -96,7 +96,7 @@ ob_start();
       CSV columns: <code>employee_code, attendance_date (YYYY-MM-DD), in_time (HH:MM), out_time (HH:MM), shift_code</code><br>
       Header row is skipped. Duplicate biometric records for same employee+date are skipped automatically.
     </p>
-    <form method="POST" action="/attendance/biometric" enctype="multipart/form-data">
+    <form method="POST" action="<?= APP_BASE ?>/attendance/biometric" enctype="multipart/form-data">
       <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
       <div class="form-group" style="max-width:400px">
         <label class="form-label required">CSV File</label>

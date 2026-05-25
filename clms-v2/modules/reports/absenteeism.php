@@ -40,12 +40,12 @@ ob_start();
     <h1 class="page-title">Absenteeism Report</h1>
     <p style="color:var(--clr-text-muted);margin:0"><?= count($records) ?> absent records</p>
   </div>
-  <div class="page-actions"><a href="/reports" class="btn btn-ghost">← Reports</a></div>
+  <div class="page-actions"><a href="<?= APP_BASE ?>/reports" class="btn btn-ghost">← Reports</a></div>
 </div>
 
 <div class="card">
   <div class="table-toolbar">
-    <form method="GET" action="/reports/absenteeism" style="display:flex;gap:var(--space-3);flex-wrap:wrap">
+    <form method="GET" action="<?= APP_BASE ?>/reports/absenteeism" style="display:flex;gap:var(--space-3);flex-wrap:wrap">
       <input type="date" name="from_date" class="form-control" value="<?= $fromDate ?>">
       <input type="date" name="to_date"   class="form-control" value="<?= $toDate ?>">
       <select name="section_id" class="form-control" style="width:auto">

@@ -44,7 +44,7 @@ ob_start();
 
 <div class="card">
   <div class="table-toolbar">
-    <form method="GET" action="/audit" style="display:flex;gap:var(--space-3);flex-wrap:wrap">
+    <form method="GET" action="<?= APP_BASE ?>/audit" style="display:flex;gap:var(--space-3);flex-wrap:wrap">
       <input type="date" name="from_date" class="form-control" value="<?= $fromDate ?>">
       <input type="date" name="to_date"   class="form-control" value="<?= $toDate ?>">
       <select name="module" class="form-control" style="width:auto">
@@ -66,7 +66,7 @@ ob_start();
         <?php endforeach; ?>
       </select>
       <button type="submit" class="btn btn-secondary">Filter</button>
-      <a href="/audit" class="btn btn-ghost">Reset</a>
+      <a href="<?= APP_BASE ?>/audit" class="btn btn-ghost">Reset</a>
     </form>
   </div>
   <div class="table-wrapper">

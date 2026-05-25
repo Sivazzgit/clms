@@ -27,9 +27,13 @@ class Router
     public static function dispatch(): void
     {
         $method = $_SERVER['REQUEST_METHOD'];
-        // Normalise path: strip query string, leading slash
-        $uri    = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $uri    = rtrim($uri, '/') ?: '/';
+        // Normalise path: strip query string and APP_BASE prefix
+        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $base = APP_BASE;
+        if ($base !== '' && str_starts_with($uri, $base)) {
+            $uri = substr($uri, strlen($base));
+        }
+        $uri = rtrim($uri, '/') ?: '/';
 
         foreach (self::$routes as [$verb, $pattern, $handler]) {
             if ($verb !== 'ANY' && $verb !== $method) continue;

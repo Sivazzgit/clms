@@ -42,12 +42,12 @@ ob_start();
 ?>
 <div class="page-header">
   <div><h1 class="page-title">Cost by Section</h1></div>
-  <div class="page-actions"><a href="/reports" class="btn btn-ghost">← Reports</a></div>
+  <div class="page-actions"><a href="<?= APP_BASE ?>/reports" class="btn btn-ghost">← Reports</a></div>
 </div>
 
 <div class="card">
   <div class="table-toolbar">
-    <form method="GET" action="/reports/cost-section" style="display:flex;gap:var(--space-3)">
+    <form method="GET" action="<?= APP_BASE ?>/reports/cost-section" style="display:flex;gap:var(--space-3)">
       <input type="month" name="month" class="form-control" value="<?= $month ?>">
       <button type="submit" class="btn btn-secondary">Apply</button>
     </form>
