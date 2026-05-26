@@ -11,14 +11,14 @@ $fromDate = "$year-$mon-01";
 $toDate   = date('Y-m-t', strtotime($fromDate));
 
 $rows = DB::rows(
-    "SELECT v.name AS vendor_name, v.vendor_code,
+    "SELECT a.vendor_id, v.name AS vendor_name, v.vendor_code,
             COUNT(DISTINCT a.employee_id) AS unique_workers,
             SUM(a.is_present) AS total_mandays,
             SUM(a.worked_hours) AS total_hours
      FROM attendance a
      JOIN vendors v ON v.id=a.vendor_id
      WHERE a.company_id=? AND a.attendance_date BETWEEN ? AND ?
-     GROUP BY a.vendor_id ORDER BY total_mandays DESC",
+     GROUP BY a.vendor_id, v.name, v.vendor_code ORDER BY total_mandays DESC",
     [$companyId,$fromDate,$toDate]
 );
 
