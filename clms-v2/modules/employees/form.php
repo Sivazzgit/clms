@@ -3,7 +3,7 @@
  * CLMS 2.0 — Employee Add / Edit form
  * HR Admin: all vendors  |  Contractor: own vendor only
  */
-Auth::requireRole('hr_admin', 'contractor');
+Auth::requireRole(['hr_admin', 'contractor']);
 
 $user    = Auth::user();
 $isAdmin = Auth::hasRole('hr_admin');
@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($isEdit) {
                     $old = DB::row('SELECT * FROM employees WHERE id = ?', [$id]);
                     DB::update('employees', $data, ['id' => $id]);
-                    AuditLogger::log('UPDATE', 'employees', null, (string)$id, AuditLogger::sanitize($old), AuditLogger::sanitize($data));
+                    AuditLogger::log('UPDATE', 'employees', $id, AuditLogger::sanitize($old), AuditLogger::sanitize($data));
                 } else {
                     $data['added_by']       = Auth::user()['id'];
                     $data['created_at']     = date('Y-m-d H:i:s');
@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $data['employee_code'] = $prefix . str_pad((int)$maxCode + 1, 4, '0', STR_PAD_LEFT);
 
                     $newId = DB::insert('employees', $data);
-                    AuditLogger::log('INSERT', 'employees', null, (string)$newId, null, AuditLogger::sanitize($data));
+                    AuditLogger::log('INSERT', 'employees', $newId, null, AuditLogger::sanitize($data));
                 }
             });
 

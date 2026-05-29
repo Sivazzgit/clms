@@ -6,7 +6,7 @@ Auth::requireAuth();
 $companyId = $_SESSION['company_id'];
 $user      = Auth::user();
 
-$planId = (int)($routeParams['id'] ?? 0);
+$planId = (int)($_GET['id'] ?? 0);
 $plan   = DB::row(
     "SELECT dp.*, v.name AS vendor_name, s.name AS section_name, sh.code AS shift_code,
             i.indent_no, u.full_name AS submitted_by_name

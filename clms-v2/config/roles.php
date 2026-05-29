@@ -17,7 +17,8 @@ return [
         'contractor'       => ['label' => 'Contractor',              'desc' => 'Vendor portal'],
         'section_incharge' => ['label' => 'Section In-charge',       'desc' => 'Indent creation, deployment review'],
         'hod'              => ['label' => 'HOD',                     'desc' => 'Review and approve'],
-        'plant_head'       => ['label' => 'Plant Head',              'desc' => 'Final approval authority'],
+        'plant_head'       => ['label' => 'Plant Head',              'desc' => 'Final approval authority per plant'],
+        'group_head'       => ['label' => 'Group Head',              'desc' => 'Head of all plants — company-wide final authority'],
         'gate_staff'       => ['label' => 'Gate / Security Staff',   'desc' => 'Attendance entry'],
     ],
 
@@ -28,7 +29,7 @@ return [
         // super_admin can impersonate any role in any company
         'super_admin' => ['*'],
         // admin can impersonate any non-privileged role within own company
-        'admin'       => ['hr_admin', 'contractor', 'section_incharge', 'hod', 'plant_head', 'gate_staff'],
+        'admin'       => ['hr_admin', 'contractor', 'section_incharge', 'hod', 'plant_head', 'group_head', 'gate_staff'],
     ],
 
     // ----------------------------------------------------------------
@@ -43,7 +44,8 @@ return [
             ['label' => 'Masters',         'url' => '#',                    'icon' => 'settings', 'submenu' => [
                 ['label' => 'Company Setup',       'url' => '/masters/company'],
                 ['label' => 'Shifts',              'url' => '/masters/shifts'],
-                ['label' => 'Sections & Cost Centers', 'url' => '/masters/sections'],
+                ['label' => 'Plants & Locations',     'url' => '/masters/plants'],
+                ['label' => 'Sections',                'url' => '/masters/sections'],
                 ['label' => 'Labour Categories',   'url' => '/masters/categories'],
                 ['label' => 'Wage Components',     'url' => '/masters/wage-rates'],
                 ['label' => 'Holiday Calendar',    'url' => '/masters/holidays'],
@@ -118,6 +120,7 @@ return [
             ['label' => 'Indent',          'url' => '#',                    'icon' => 'clipboard', 'submenu' => [
                 ['label' => 'My Indents',          'url' => '/indent'],
                 ['label' => 'Create Indent',       'url' => '/indent/create'],
+                ['label' => 'Vendor Assignment',   'url' => '/indent/assign'],
             ]],
             ['label' => 'Deployment',      'url' => '#',                    'icon' => 'users-check', 'submenu' => [
                 ['label' => 'Review Deployment',   'url' => '/deployment/review'],
@@ -135,10 +138,20 @@ return [
         ],
 
         'plant_head' => [
-            ['label' => 'Dashboard',       'url' => '/dashboard',           'icon' => 'home'],
-            ['label' => 'Indent Approvals','url' => '/indent/final-approve','icon' => 'clipboard'],
-            ['label' => 'Deployment Final','url' => '/deployment/final',    'icon' => 'users-check'],
-            ['label' => 'Daily Cost Report','url' => '/reports/daily-cost', 'icon' => 'bar-chart'],
+            ['label' => 'Dashboard',        'url' => '/dashboard',            'icon' => 'home'],
+            ['label' => 'Indent Approvals', 'url' => '/indent/final-approve', 'icon' => 'clipboard'],
+            ['label' => 'Deployment Final', 'url' => '/deployment/final',     'icon' => 'users-check'],
+            ['label' => 'Daily Cost Report','url' => '/reports/daily-cost',  'icon' => 'bar-chart'],
+        ],
+
+        'group_head' => [
+            ['label' => 'Dashboard',        'url' => '/dashboard',            'icon' => 'home'],
+            ['label' => 'Indent Approvals', 'url' => '/indent/group-approve', 'icon' => 'clipboard'],
+            ['label' => 'Reports',          'url' => '#',                     'icon' => 'bar-chart', 'submenu' => [
+                ['label' => 'Daily Manpower Summary', 'url' => '/reports/daily-manpower'],
+                ['label' => 'Contractor-wise Cost',   'url' => '/reports/cost-contractor'],
+                ['label' => 'Section-wise Cost',      'url' => '/reports/cost-section'],
+            ]],
         ],
 
         'gate_staff' => [
@@ -167,7 +180,7 @@ return [
     // MODULE ACCESS MAP: which roles can access which module paths
     // ----------------------------------------------------------------
     'access' => [
-        'dashboard'          => ['hr_admin', 'contractor', 'section_incharge', 'hod', 'plant_head', 'gate_staff'],
+        'dashboard'          => ['hr_admin', 'contractor', 'section_incharge', 'hod', 'plant_head', 'group_head', 'gate_staff'],
         'users'              => ['hr_admin'],
         'vendors'            => ['hr_admin'],
         'employees'          => ['hr_admin', 'contractor'],
@@ -176,13 +189,14 @@ return [
         'indent'             => ['hr_admin', 'section_incharge'],
         'indent.hod'         => ['hod'],
         'indent.plant'       => ['plant_head'],
+        'indent.group'       => ['group_head'],
         'indent.assign'      => ['hr_admin'],
         'indent.contractor'  => ['contractor'],
         'deployment'         => ['contractor', 'section_incharge', 'hod', 'plant_head', 'hr_admin'],
         'attendance'         => ['hr_admin', 'gate_staff', 'section_incharge'],
         'attendance.view'    => ['hr_admin', 'contractor', 'section_incharge'],
         'billing'            => ['hr_admin'],
-        'reports'            => ['hr_admin', 'section_incharge', 'hod', 'plant_head'],
+        'reports'            => ['hr_admin', 'section_incharge', 'hod', 'plant_head', 'group_head'],
         'statutory'          => ['hr_admin'],
         'audit'              => ['hr_admin', 'super_admin', 'admin'],
         'impersonate'        => ['super_admin', 'admin'],

@@ -9,22 +9,20 @@ class AuditLogger
     /**
      * @param string      $action    INSERT | UPDATE | DELETE | LOGIN | LOGOUT | APPROVE | REJECT
      * @param string      $module    Module name: users | vendors | employees | indent | ...
-     * @param int|null    $userId    The user performing the action
-     * @param string|null $recordId  PK of the affected record
-     * @param array|null  $oldValues Previous values (for UPDATE/DELETE)
-     * @param array|null  $newValues New values (for INSERT/UPDATE)
+     * @param int|null    $recordId  PK of the affected record
+     * @param array|null  $oldValues Previous field values (for UPDATE/DELETE)
+     * @param array|null  $newValues New field values (INSERT / UPDATE)
      */
     public static function log(
         string  $action,
         string  $module,
-        ?int    $userId    = null,
-        ?string $recordId  = null,
+        ?int    $recordId  = null,
         ?array  $oldValues = null,
         ?array  $newValues = null
     ): void {
         try {
-            $userId    = $userId    ?? ($_SESSION['user_id']  ?? null);
-            $username  = $_SESSION['username'] ?? null;
+            $userId    = $_SESSION['user_id']   ?? null;
+            $username  = $_SESSION['username']  ?? null;
             $companyId = $_SESSION['company_id'] ?? null;
             $ip        = self::getIp();
             $ua        = substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 500);

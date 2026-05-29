@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         DB::transaction(function () use ($data, $id) {
             DB::insert('employee_separations', $data);
             DB::update('employees', ['status' => 'separated'], ['id' => $id]);
-            AuditLogger::log('SEPARATION', 'employees', null, (string)$id,
+            AuditLogger::log('SEPARATION', 'employees', $id,
                 ['status' => 'active'], ['status' => 'separated', 'reason' => $data['reason']]);
         });
         Helpers::redirect('/employees', 'Employee separation recorded.');

@@ -29,6 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($startTime === '') $errors[] = 'Start time is required.';
         if ($endTime === '')   $errors[] = 'End time is required.';
 
+        // Parse plant_id
+        $plantId = (int) ($_POST['plant_id'] ?? 0) ?: null;
+
         // Calculate duration
         $dur = null;
         if ($startTime && $endTime) {
@@ -42,14 +45,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$errors) {
             if ($id > 0) {
                 DB::execute(
-                    "UPDATE shifts SET code=?, name=?, start_time=?, end_time=?, crosses_midnight=?, duration_hours=?, is_night_shift=? WHERE id=? AND company_id=?",
-                    [$code, $name, $startTime, $endTime, $crossesMid, $dur, $isNight, $id, $companyId]
+                    "UPDATE shifts SET code=?, name=?, start_time=?, end_time=?, crosses_midnight=?, duration_hours=?, is_night_shift=?, plant_id=? WHERE id=? AND company_id=?",
+                    [$code, $name, $startTime, $endTime, $crossesMid, $dur, $isNight, $plantId, $id, $companyId]
                 );
                 AuditLogger::log('UPDATE', 'shifts', $id);
             } else {
                 DB::execute(
-                    "INSERT INTO shifts (company_id,code,name,start_time,end_time,crosses_midnight,duration_hours,is_night_shift) VALUES (?,?,?,?,?,?,?,?)",
-                    [$companyId, $code, $name, $startTime, $endTime, $crossesMid, $dur, $isNight]
+                    "INSERT INTO shifts (company_id,plant_id,code,name,start_time,end_time,crosses_midnight,duration_hours,is_night_shift) VALUES (?,?,?,?,?,?,?,?,?)",
+                    [$companyId, $plantId, $code, $name, $startTime, $endTime, $crossesMid, $dur, $isNight]
                 );
                 AuditLogger::log('CREATE', 'shifts', DB::lastInsertId());
             }
@@ -76,7 +79,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $editId = (int) ($_GET['edit'] ?? 0);
 $editRow = $editId ? DB::row("SELECT * FROM shifts WHERE id=? AND company_id=?", [$editId, $companyId]) : null;
-$shifts  = DB::rows("SELECT * FROM shifts WHERE company_id=? ORDER BY code", [$companyId]);
+$shifts  = DB::rows(
+    "SELECT sh.*, pl.name AS plant_name
+     FROM shifts sh
+     LEFT JOIN plants pl ON pl.id = sh.plant_id
+     WHERE sh.company_id=? ORDER BY pl.code, sh.code",
+    [$companyId]
+);
+$plants = DB::rows("SELECT id, code, name FROM plants WHERE company_id=? AND is_active=1 ORDER BY code", [$companyId]);
 
 ob_start();
 ?>
@@ -102,7 +112,7 @@ ob_start();
   <div class="card-header"><h3 class="card-title"><?= $editRow ? 'Edit Shift' : 'Add Shift' ?></h3></div>
   <div class="card-body">
     <form method="POST" action="<?= APP_BASE ?>/masters/shifts">
-      <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
+      <input type="hidden" name="<?= CSRF_KEY ?>" value="<?= Helpers::h(Auth::csrfToken()) ?>">
       <input type="hidden" name="action" value="save">
       <input type="hidden" name="id" value="<?= $editRow ? $editRow['id'] : 0 ?>">
       <div class="form-grid-3">
@@ -115,6 +125,18 @@ ob_start();
           <label class="form-label required">Name</label>
           <input type="text" name="name" class="form-control" maxlength="50" required
                  value="<?= Helpers::h($editRow['name'] ?? '') ?>">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Plant / Location</label>
+          <select name="plant_id" class="form-control">
+            <option value="">— All Plants —</option>
+            <?php foreach ($plants as $pl): ?>
+              <option value="<?= $pl['id'] ?>"
+                <?= ($editRow['plant_id'] ?? 0) == $pl['id'] ? 'selected' : '' ?>>
+                <?= Helpers::h($pl['code'] . ' — ' . $pl['name']) ?>
+              </option>
+            <?php endforeach; ?>
+          </select>
         </div>
         <div class="form-group">
           <label class="form-label required">Start Time</label>
@@ -156,7 +178,7 @@ ob_start();
     <table class="data-table">
       <thead>
         <tr>
-          <th>Code</th><th>Name</th><th>Start</th><th>End</th>
+          <th>Code</th><th>Name</th><th>Plant</th><th>Start</th><th>End</th>
           <th>Duration (hrs)</th><th>Night</th><th>Status</th><th>Actions</th>
         </tr>
       </thead>
@@ -165,6 +187,7 @@ ob_start();
         <tr>
           <td><code><?= Helpers::h($s['code']) ?></code></td>
           <td><?= Helpers::h($s['name']) ?></td>
+          <td><?= Helpers::h($s['plant_name'] ?? '—') ?></td>
           <td><?= substr($s['start_time'], 0, 5) ?></td>
           <td><?= substr($s['end_time'], 0, 5) ?><?= $s['crosses_midnight'] ? ' (+1)' : '' ?></td>
           <td><?= number_format($s['duration_hours'] ?? 0, 2) ?></td>
@@ -174,14 +197,14 @@ ob_start();
             <div style="display:flex;gap:var(--space-2)">
               <a href="?edit=<?= $s['id'] ?>" class="btn btn-secondary btn-sm">Edit</a>
               <form method="POST" action="<?= APP_BASE ?>/masters/shifts" style="display:inline">
-                <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
+                <input type="hidden" name="<?= CSRF_KEY ?>" value="<?= Helpers::h(Auth::csrfToken()) ?>">
                 <input type="hidden" name="action" value="toggle">
                 <input type="hidden" name="id" value="<?= $s['id'] ?>">
                 <button type="submit" class="btn btn-ghost btn-sm"><?= $s['is_active'] ? 'Disable' : 'Enable' ?></button>
               </form>
               <form method="POST" action="<?= APP_BASE ?>/masters/shifts" style="display:inline"
                     onsubmit="return confirm('Delete this shift?')">
-                <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
+                <input type="hidden" name="<?= CSRF_KEY ?>" value="<?= Helpers::h(Auth::csrfToken()) ?>">
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="id" value="<?= $s['id'] ?>">
                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -191,7 +214,7 @@ ob_start();
         </tr>
         <?php endforeach; ?>
         <?php if (!$shifts): ?>
-          <tr><td colspan="8" style="text-align:center;color:var(--clr-text-muted)">No shifts defined yet.</td></tr>
+          <tr><td colspan="9" style="text-align:center;color:var(--clr-text-muted)">No shifts defined yet.</td></tr>
         <?php endif; ?>
       </tbody>
     </table>

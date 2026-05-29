@@ -53,7 +53,7 @@ class Auth
         );
 
         if (!$user || !password_verify($password, $user['password_hash'])) {
-            AuditLogger::log('LOGIN_FAIL', 'auth', null, null, null, ['username' => $username]);
+            AuditLogger::log('LOGIN_FAIL', 'auth', null, null, ['username' => $username]);
             return false;
         }
 
@@ -88,7 +88,7 @@ class Auth
         // Update last_login
         DB::update('users', ['last_login_at' => date('Y-m-d H:i:s')], ['id' => $user['id']]);
 
-        AuditLogger::log('LOGIN', 'auth', $user['id'], null, null, ['username' => $username]);
+        AuditLogger::log('LOGIN', 'auth', $user['id'], null, ['username' => $username]);
 
         return true;
     }
@@ -99,7 +99,7 @@ class Auth
     public static function logout(): void
     {
         if (isset($_SESSION['user_id'])) {
-            AuditLogger::log('LOGOUT', 'auth', $_SESSION['user_id']);
+            AuditLogger::log('LOGOUT', 'auth');
         }
         $_SESSION = [];
         if (ini_get('session.use_cookies')) {

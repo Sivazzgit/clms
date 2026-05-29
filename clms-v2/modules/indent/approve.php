@@ -40,19 +40,33 @@ ob_start();
           <td><?= $ind['is_urgent'] ? '<span class="badge badge-rejected">Yes</span>' : '—' ?></td>
           <td><?= Helpers::h($ind['created_by_name']) ?></td>
           <td>
-            <div style="display:flex;gap:var(--space-2)">
+            <!-- Quick approve -->
+            <div style="display:flex;gap:var(--space-2);flex-wrap:wrap">
               <form method="POST" action="<?= APP_BASE ?>/indent/action" style="display:inline">
-                <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
+                <input type="hidden" name="<?= CSRF_KEY ?>" value="<?= Helpers::h(Auth::csrfToken()) ?>">
                 <input type="hidden" name="indent_id"  value="<?= $ind['id'] ?>">
                 <input type="hidden" name="action"     value="hod_review">
                 <button type="submit" class="btn btn-primary btn-sm">Approve</button>
               </form>
-              <form method="POST" action="<?= APP_BASE ?>/indent/action" style="display:inline"
-                    onsubmit="return confirm('Reject this indent?')">
-                <input type="hidden" name="csrf_token" value="<?= Helpers::h($_SESSION['csrf_token']) ?>">
-                <input type="hidden" name="indent_id"  value="<?= $ind['id'] ?>">
-                <input type="hidden" name="action"     value="reject">
-                <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+              <button type="button" class="btn btn-warning btn-sm"
+                      onclick="clmsShowRemarks(this,'send_back','Send Back for Revision')">Send Back</button>
+              <button type="button" class="btn btn-danger btn-sm"
+                      onclick="clmsShowRemarks(this,'reject','Reject Indent')">Reject</button>
+            </div>
+            <!-- Inline send_back / reject form -->
+            <div class="clms-inline-form" style="display:none;margin-top:8px">
+              <form method="POST" action="<?= APP_BASE ?>/indent/action">
+                <input type="hidden" name="<?= CSRF_KEY ?>" value="<?= Helpers::h(Auth::csrfToken()) ?>">
+                <input type="hidden" name="indent_id" value="<?= $ind['id'] ?>">
+                <input type="hidden" name="action"    class="clms-action-val" value="">
+                <textarea name="remarks" rows="2" required
+                  placeholder="Enter your reason or revision comments (required)..."
+                  style="width:100%;padding:6px;border:var(--border-base);border-radius:var(--radius-sm);font-size:var(--text-sm);resize:vertical;box-sizing:border-box;margin-bottom:4px"></textarea>
+                <div style="display:flex;gap:6px">
+                  <button type="submit" class="btn btn-sm clms-action-btn">Submit</button>
+                  <button type="button" class="btn btn-secondary btn-sm"
+                          onclick="this.closest('.clms-inline-form').style.display='none'">Cancel</button>
+                </div>
               </form>
             </div>
           </td>
@@ -70,4 +84,19 @@ $pageContent = ob_get_clean();
 $pageTitle   = 'Indent Approvals';
 $activeMenu  = 'indent';
 $breadcrumbs = [['label'=>'Indents','url'=>'/indent'],['label'=>'HOD Approval']];
+// Inject JS for inline remarks toggling before template renders
+$extraScripts = <<<'JS'
+<script>
+function clmsShowRemarks(btn, action, label) {
+  var cell = btn.closest('td');
+  var box  = cell.querySelector('.clms-inline-form');
+  cell.querySelector('.clms-action-val').value = action;
+  var ab = cell.querySelector('.clms-action-btn');
+  ab.textContent  = label;
+  ab.className    = 'btn btn-sm ' + (action === 'send_back' ? 'btn-warning' : 'btn-danger');
+  box.style.display = '';
+  box.querySelector('textarea').focus();
+}
+</script>
+JS;
 include CLMS_ROOT . '/templates/base.html.php';

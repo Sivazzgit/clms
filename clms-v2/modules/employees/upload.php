@@ -144,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         fclose($handle);
 
-        AuditLogger::log('BULK_UPLOAD', 'employees', null, null, null, [
+        AuditLogger::log('BULK_UPLOAD', 'employees', null, null, [
             'inserted' => $inserted, 'updated' => $updated, 'skipped' => $skipped,
         ]);
 

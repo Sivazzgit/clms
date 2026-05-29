@@ -3,25 +3,25 @@
  * CLMS 2.0 — Indent List
  * - section_incharge: sees their section's indents
  * - hod / plant_head / hr_admin: sees all
- * - contractor: not applicable (redirected)
+ * - contractor: sees only indents assigned to their vendor
  */
 Auth::requireAuth();
 $user  = Auth::user();
 $roles = $user['roles'];
 
-if (Auth::hasRole('contractor')) {
-    Helpers::redirect('/dashboard');
-}
-
-$companyId  = $_SESSION['company_id'];
-$errors     = [];
+$companyId    = $_SESSION['company_id'];
+$errors       = [];
 $filterStatus = Helpers::clean($_GET['status'] ?? '');
 $search       = Helpers::clean($_GET['q']      ?? '');
 
 $where = ['i.company_id = ?'];
 $bind  = [$companyId];
 
-if (Auth::hasRole('section_incharge') && !Auth::hasRole('hr_admin') && !Auth::hasRole('hod') && !Auth::hasRole('plant_head')) {
+if (Auth::hasRole('contractor') && !Auth::hasRole('hr_admin')) {
+    $vendorId = $_SESSION['vendor_id'] ?? 0;
+    $where[] = 'i.id IN (SELECT indent_id FROM indent_vendor_assignments WHERE vendor_id = ?)';
+    $bind[]  = $vendorId;
+} elseif (Auth::hasRole('section_incharge') && !Auth::hasRole('hr_admin') && !Auth::hasRole('hod') && !Auth::hasRole('plant_head')) {
     $secIds = $user['section_ids'] ?? [];
     if ($secIds) {
         $ph = implode(',', array_fill(0, count($secIds), '?'));
@@ -42,10 +42,15 @@ $total    = (int) DB::value("SELECT COUNT(*) FROM indents i JOIN sections s ON s
 $pager    = Helpers::paginate($total);
 
 $indents = DB::rows(
-    "SELECT i.*, s.name AS section_name, u.full_name AS created_by_name
+    "SELECT i.*, s.name AS section_name, u.full_name AS created_by_name,
+            hod.full_name AS hod_name,
+            ph.full_name  AS plant_head_name
      FROM indents i
-     JOIN sections s ON s.id = i.section_id
-     JOIN users u    ON u.id = i.created_by
+     JOIN sections s   ON s.id = i.section_id
+     JOIN users u      ON u.id = i.created_by
+     LEFT JOIN users hod ON hod.id = s.hod_user_id
+     LEFT JOIN plants pl ON pl.id  = s.plant_id
+     LEFT JOIN users ph  ON ph.id  = pl.plant_head_user_id
      WHERE $whereStr
      ORDER BY i.created_at DESC
      LIMIT ? OFFSET ?",
@@ -78,7 +83,8 @@ ob_start();
       <select name="status" class="form-control" style="width:auto;" onchange="this.form.submit()">
         <option value="">All Status</option>
         <?php foreach ($statuses as $st): ?>
-          <option value="<?= $st ?>" <?= $filterStatus === $st ? 'selected' : '' ?>><?= ucwords(str_replace('_', ' ', $st)) ?></option>
+          <?php $sbOpt = Helpers::indentStatusBadge($st); ?>
+          <option value="<?= $st ?>" <?= $filterStatus === $st ? 'selected' : '' ?>><?= $sbOpt['label'] ?></option>
         <?php endforeach; ?>
       </select>
       <button type="submit" class="btn btn-secondary">Filter</button>
@@ -101,7 +107,15 @@ ob_start();
           <td><?= Helpers::dateDisplay($ind['start_date']) ?> – <?= Helpers::dateDisplay($ind['end_date']) ?></td>
           <td><?= ucfirst($ind['indent_type'] ?? 'range') ?></td>
           <td><?= $ind['is_urgent'] ? '<span class="badge badge-rejected">Urgent</span>' : '—' ?></td>
-          <td><span class="badge badge-pending"><?= ucwords(str_replace('_',' ',$ind['status'])) ?></span></td>
+          <td>
+            <?php $sb = Helpers::indentStatusBadge($ind['status']); ?>
+            <span class="badge <?= $sb['class'] ?>"><?= $sb['label'] ?></span>
+            <?php if ($ind['status'] === 'submitted' && !empty($ind['hod_name'])): ?>
+              <div style="font-size:var(--text-xs);color:var(--clr-text-muted);margin-top:2px">HOD: <?= Helpers::h($ind['hod_name']) ?></div>
+            <?php elseif ($ind['status'] === 'hod_reviewed' && !empty($ind['plant_head_name'])): ?>
+              <div style="font-size:var(--text-xs);color:var(--clr-text-muted);margin-top:2px">Plant Head: <?= Helpers::h($ind['plant_head_name']) ?></div>
+            <?php endif; ?>
+          </td>
           <td><?= Helpers::h($ind['created_by_name']) ?></td>
           <td>
             <div style="display:flex;gap:var(--space-2)">

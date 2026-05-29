@@ -68,7 +68,7 @@ $sections  = DB::rows("SELECT id,code,name FROM sections WHERE company_id=? AND 
 
 // My employees for this vendor
 $employees = DB::rows(
-    "SELECT id,employee_code,first_name,last_name,shift_id,section_id FROM employees
+    "SELECT id,employee_code,first_name,last_name FROM employees
      WHERE vendor_id=? AND company_id=? AND status='active' ORDER BY first_name,last_name",
     [$vendorId,$companyId]
 );

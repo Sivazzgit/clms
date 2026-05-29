@@ -20,16 +20,22 @@ $quick   = [];
 if (Auth::hasRole('hr_admin')) {
     $stats[] = ['label' => 'Active Contractors',  'value' => DB::value("SELECT COUNT(*) FROM vendors WHERE status='active'"),                        'icon' => 'briefcase',       'color' => 'primary'];
     $stats[] = ['label' => 'Active Employees',    'value' => DB::value("SELECT COUNT(*) FROM employees WHERE status='active'"),                'icon' => 'id-card',         'color' => 'success'];
-    $stats[] = ['label' => 'Open Indents',        'value' => DB::value("SELECT COUNT(*) FROM indents WHERE status NOT IN ('approved','closed')"), 'icon' => 'clipboard',    'color' => 'warning'];
+    $stats[] = ['label' => 'Open Indents',        'value' => DB::value("SELECT COUNT(*) FROM indents WHERE status NOT IN ('contractor_confirmed','rejected','cancelled')"), 'icon' => 'clipboard', 'color' => 'warning'];
     $stats[] = ['label' => "Today's Attendance",  'value' => DB::value("SELECT COUNT(*) FROM attendance WHERE attendance_date=? AND is_present=1", [$today]), 'icon' => 'calendar-check', 'color' => 'info'];
+
+    $pending_hr_accept = (int) DB::value("SELECT COUNT(*) FROM indents WHERE status='plant_approved'");
+    if ($pending_hr_accept > 0) {
+        $alerts[] = ['type' => 'warning', 'msg' => "$pending_hr_accept indent(s) approved by Plant Head and awaiting your acceptance.", 'url' => '/indent'];
+    }
 
     $pending_employees = (int) DB::value("SELECT COUNT(*) FROM employees WHERE status='pending_approval'");
     if ($pending_employees > 0) {
         $alerts[] = ['type' => 'warning', 'msg' => "$pending_employees employee registration(s) pending approval.", 'url' => '/employees/pending'];
     }
-    $pending_indents = (int) DB::value("SELECT COUNT(*) FROM indents WHERE status='plant_approved'");
-    if ($pending_indents > 0) {
-        $alerts[] = ['type' => 'info', 'msg' => "$pending_indents approved indent(s) pending vendor assignment.", 'url' => '/indent/assign'];
+
+    $pending_assign = (int) DB::value("SELECT COUNT(*) FROM indents WHERE status IN ('hr_accepted','partially_confirmed')");
+    if ($pending_assign > 0) {
+        $alerts[] = ['type' => 'info', 'msg' => "$pending_assign indent(s) pending vendor assignment.", 'url' => '/indent/assign'];
     }
 
     $quick = [
@@ -45,9 +51,21 @@ if (Auth::hasRole('hr_admin')) {
 if (Auth::hasRole('contractor')) {
     $vid = $user['vendor_id'];
     $stats[] = ['label' => 'My Employees',        'value' => DB::value("SELECT COUNT(*) FROM employees WHERE vendor_id=? AND status='active'", [$vid]),    'icon' => 'id-card',         'color' => 'primary'];
-    $stats[] = ['label' => 'Open Assignments',    'value' => DB::value("SELECT COUNT(*) FROM indent_vendor_assignments WHERE vendor_id=? AND status='open'", [$vid]), 'icon' => 'clipboard', 'color' => 'warning'];
+    $stats[] = ['label' => 'Open Assignments',    'value' => DB::value("SELECT COUNT(*) FROM indent_vendor_assignments WHERE vendor_id=? AND status='assigned'", [$vid]), 'icon' => 'clipboard', 'color' => 'warning'];
     $stats[] = ['label' => "Today's Deployed",    'value' => DB::value("SELECT COUNT(*) FROM attendance WHERE vendor_id=? AND attendance_date=? AND is_present=1", [$vid, $today]), 'icon' => 'calendar-check', 'color' => 'success'];
     $stats[] = ['label' => 'Unpaid Bills',        'value' => DB::value("SELECT COUNT(*) FROM billing_periods WHERE vendor_id=? AND payment_status='pending'", [$vid]), 'icon' => 'file-invoice', 'color' => 'info'];
+
+    // Alert: indents awaiting contractor confirmation
+    $pending_confirm = (int) DB::value(
+        "SELECT COUNT(DISTINCT i.id) FROM indents i
+         JOIN indent_vendor_assignments iva ON iva.indent_id = i.id
+         WHERE i.status = 'assigned' AND iva.vendor_id = ? AND iva.status = 'assigned'",
+        [$vid]
+    );
+    if ($pending_confirm > 0) {
+        $alerts[] = ['type' => 'warning', 'msg' => "$pending_confirm indent(s) awaiting your confirmation.", 'url' => '/indent'];
+    }
+
     $quick = [
         ['label' => 'My Employees',    'url' => '/employees',          'icon' => 'id-card'],
         ['label' => 'Submit Deployment','url' => '/deployment/create', 'icon' => 'users-check'],
@@ -56,20 +74,75 @@ if (Auth::hasRole('contractor')) {
 }
 
 if (Auth::hasRole('section_incharge')) {
-    $sectionIds = $user['section_ids'];
-    $placeholders = implode(',', array_fill(0, max(1, count($sectionIds)), '?'));
-    $stats[] = ['label' => 'My Pending Indents',      'value' => count($sectionIds) ? DB::value("SELECT COUNT(*) FROM indents WHERE section_id IN ($placeholders) AND status='draft'", $sectionIds) : 0, 'icon' => 'clipboard', 'color' => 'warning'];
-    $stats[] = ['label' => "Today's Manpower",        'value' => count($sectionIds) ? DB::value("SELECT COUNT(*) FROM attendance WHERE section_id IN ($placeholders) AND attendance_date=? AND is_present=1", [...$sectionIds, $today]) : 0, 'icon' => 'calendar-check', 'color' => 'success'];
+    $sectionIds   = $user['section_ids'] ?? [];
+    $hasSections  = count($sectionIds) > 0;
+    $ph           = $hasSections ? implode(',', array_fill(0, count($sectionIds), '?')) : '0';
+
+    // Stats
+    $stats[] = [
+        'label' => 'Draft Indents',
+        'value' => $hasSections ? DB::value("SELECT COUNT(*) FROM indents WHERE section_id IN ($ph) AND status='draft'", $sectionIds) : 0,
+        'icon' => 'clipboard', 'color' => 'warning',
+    ];
+    $stats[] = [
+        'label' => 'Needs Revision',
+        'value' => $hasSections ? DB::value("SELECT COUNT(*) FROM indents WHERE section_id IN ($ph) AND status='needs_revision'", $sectionIds) : 0,
+        'icon' => 'clipboard', 'color' => 'danger',
+    ];
+    $stats[] = [
+        'label' => 'In Approval Pipeline',
+        'value' => $hasSections ? DB::value("SELECT COUNT(*) FROM indents WHERE section_id IN ($ph) AND status IN ('submitted','hod_reviewed','plant_approved')", $sectionIds) : 0,
+        'icon' => 'clipboard', 'color' => 'info',
+    ];
+    $stats[] = [
+        'label' => "Today's Manpower",
+        'value' => $hasSections ? DB::value("SELECT COUNT(*) FROM attendance WHERE section_id IN ($ph) AND attendance_date=? AND is_present=1", [...$sectionIds, $today]) : 0,
+        'icon' => 'calendar-check', 'color' => 'success',
+    ];
+
+    // Alerts
+    if ($hasSections) {
+        $revisionCount = (int) DB::value(
+            "SELECT COUNT(*) FROM indents WHERE section_id IN ($ph) AND status='needs_revision'",
+            $sectionIds
+        );
+        if ($revisionCount > 0) {
+            $alerts[] = [
+                'type' => 'warning',
+                'msg'  => "$revisionCount indent(s) were sent back for revision. Please review the comments and resubmit.",
+                'url'  => '/indent',
+            ];
+        }
+
+        $assignCount = (int) DB::value(
+            "SELECT COUNT(*) FROM indents WHERE section_id IN ($ph) AND status IN ('hr_accepted','partially_confirmed')",
+            $sectionIds
+        );
+        if ($assignCount > 0) {
+            $alerts[] = [
+                'type' => 'info',
+                'msg'  => "$assignCount indent(s) are ready for vendor assignment.",
+                'url'  => '/indent/assign',
+            ];
+        }
+    }
+
     $quick = [
-        ['label' => 'Create Indent',     'url' => '/indent/create',       'icon' => 'clipboard'],
-        ['label' => 'Gate Entry',        'url' => '/attendance/gate',     'icon' => 'calendar-check'],
+        ['label' => 'Create Indent',    'url' => '/indent/create',   'icon' => 'clipboard'],
+        ['label' => 'Assign Vendors',   'url' => '/indent/assign',   'icon' => 'briefcase'],
+        ['label' => 'Gate Entry',       'url' => '/attendance/gate', 'icon' => 'calendar-check'],
     ];
 }
 
 if (Auth::hasRole('hod')) {
-    $stats[] = ['label' => 'Indent Approvals Pending',  'value' => DB::value("SELECT COUNT(*) FROM indents WHERE status='pending_hod'"),            'icon' => 'clipboard',   'color' => 'warning'];
-    $stats[] = ['label' => 'Deployment Approvals',      'value' => DB::value("SELECT COUNT(*) FROM deployment_plans WHERE status='pending_hod'"),    'icon' => 'users-check', 'color' => 'info'];
+    $pending_hod = (int) DB::value("SELECT COUNT(*) FROM indents WHERE status='submitted'");
+    $stats[] = ['label' => 'Indent Approvals Pending',  'value' => $pending_hod,                                                                              'icon' => 'clipboard',   'color' => 'warning'];
+    $stats[] = ['label' => 'Deployment Approvals',      'value' => DB::value("SELECT COUNT(*) FROM deployment_plans WHERE status='pending_hod'"),              'icon' => 'users-check', 'color' => 'info'];
     $stats[] = ['label' => "Today's Total Manpower",    'value' => DB::value("SELECT COUNT(*) FROM attendance WHERE attendance_date=? AND is_present=1", [$today]), 'icon' => 'calendar-check', 'color' => 'success'];
+
+    if ($pending_hod > 0) {
+        $alerts[] = ['type' => 'warning', 'msg' => "$pending_hod indent(s) awaiting your approval.", 'url' => '/indent/approve'];
+    }
     $quick = [
         ['label' => 'Indent Approvals',   'url' => '/indent/approve',      'icon' => 'clipboard'],
         ['label' => 'Deployment Review',  'url' => '/deployment/approve',  'icon' => 'users-check'],
@@ -77,9 +150,14 @@ if (Auth::hasRole('hod')) {
 }
 
 if (Auth::hasRole('plant_head')) {
-    $stats[] = ['label' => 'Final Indent Approvals',   'value' => DB::value("SELECT COUNT(*) FROM indents WHERE status='pending_plant_head'"),           'icon' => 'clipboard',   'color' => 'warning'];
-    $stats[] = ['label' => 'Final Deployment Approvals','value' => DB::value("SELECT COUNT(*) FROM deployment_plans WHERE status='pending_plant_head'"),  'icon' => 'users-check', 'color' => 'info'];
+    $pending_ph = (int) DB::value("SELECT COUNT(*) FROM indents WHERE status='hod_reviewed'");
+    $stats[] = ['label' => 'Final Indent Approvals',    'value' => $pending_ph,                                                                                 'icon' => 'clipboard',   'color' => 'warning'];
+    $stats[] = ['label' => 'Final Deployment Approvals','value' => DB::value("SELECT COUNT(*) FROM deployment_plans WHERE status='pending_plant_head'"),         'icon' => 'users-check', 'color' => 'info'];
     $stats[] = ['label' => "Today's Total Manpower",    'value' => DB::value("SELECT COUNT(*) FROM attendance WHERE attendance_date=? AND is_present=1", [$today]), 'icon' => 'calendar-check', 'color' => 'success'];
+
+    if ($pending_ph > 0) {
+        $alerts[] = ['type' => 'warning', 'msg' => "$pending_ph indent(s) awaiting your final approval.", 'url' => '/indent/final-approve'];
+    }
     $quick = [
         ['label' => 'Final Indent Approval',  'url' => '/indent/final-approve',  'icon' => 'clipboard'],
         ['label' => 'Daily Cost Report',      'url' => '/reports/daily-cost',    'icon' => 'bar-chart'],

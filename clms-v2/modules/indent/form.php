@@ -11,7 +11,7 @@ $errors    = [];
 
 $record = $isEdit ? DB::row("SELECT * FROM indents WHERE id=? AND company_id=?", [$id, $companyId]) : null;
 if ($isEdit && !$record) { Helpers::redirect('/indent', 'Indent not found.', 'error'); }
-if ($isEdit && !in_array($record['status'], ['draft','submitted'])) {
+if ($isEdit && !in_array($record['status'], ['draft','submitted','needs_revision'])) {
     Helpers::redirect('/indent/'.$id.'/view', 'Cannot edit an indent in this state.', 'error');
 }
 

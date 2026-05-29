@@ -56,6 +56,7 @@ Router::any('/employees/upload',                   'modules/employees/upload.php
 
 // Masters
 Router::any('/masters/company',                    'modules/masters/company.php');
+Router::any('/masters/plants',                     'modules/masters/plants.php');
 Router::any('/masters/shifts',                     'modules/masters/shifts.php');
 Router::any('/masters/sections',                   'modules/masters/sections.php');
 Router::any('/masters/categories',                 'modules/masters/categories.php');

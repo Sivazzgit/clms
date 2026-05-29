@@ -5,8 +5,7 @@
  */
 
 if (Auth::check()) {
-    header('Location: /dashboard');
-    exit;
+    Helpers::redirect('/dashboard');
 }
 
 $error = '';

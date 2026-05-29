@@ -157,4 +157,27 @@ class Helpers
         $chars = array_map(fn($w) => mb_strtoupper(mb_substr($w, 0, 1)), array_slice($words, 0, 2));
         return implode('', $chars);
     }
+
+    /**
+     * Returns a human-readable label and badge CSS class for an indent status,
+     * showing what action/approval is pending next.
+     * Returns ['label' => string, 'class' => string]
+     */
+    public static function indentStatusBadge(string $status): array
+    {
+        return match($status) {
+            'draft'                => ['label' => 'Draft',                           'class' => 'badge-draft'],
+            'needs_revision'       => ['label' => 'Needs Revision',                  'class' => 'badge-rejected'],
+            'submitted'            => ['label' => 'Awaiting HOD Approval',           'class' => 'badge-pending'],
+            'hod_reviewed'         => ['label' => 'Awaiting Plant Head Approval',    'class' => 'badge-pending'],
+            'plant_approved'       => ['label' => 'Awaiting HR Acceptance',          'class' => 'badge-pending'],
+            'hr_accepted'          => ['label' => 'Awaiting Vendor Assignment',      'class' => 'badge-urgent'],
+            'assigned'             => ['label' => 'Awaiting Contractor Confirmation','class' => 'badge-urgent'],
+            'partially_confirmed'  => ['label' => 'Partially Confirmed – Needs More Vendors', 'class' => 'badge-urgent'],
+            'contractor_confirmed' => ['label' => 'Confirmed',                       'class' => 'badge-active'],
+            'rejected'             => ['label' => 'Rejected',                        'class' => 'badge-rejected'],
+            'cancelled'            => ['label' => 'Cancelled',                       'class' => 'badge-rejected'],
+            default                => ['label' => ucwords(str_replace('_', ' ', $status)), 'class' => 'badge-pending'],
+        };
+    }
 }

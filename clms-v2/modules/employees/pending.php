@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             array_merge([Auth::user()['id']], $ids, [$_SESSION['company_id']])
         );
         foreach ($ids as $eid) {
-            AuditLogger::log('APPROVE', 'employees', null, (string)$eid, ['status' => 'pending_approval'], ['status' => 'active']);
+            AuditLogger::log('APPROVE', 'employees', $eid, ['status' => 'pending_approval'], ['status' => 'active']);
         }
         Helpers::redirect('/employees/pending', count($ids) . ' employee(s) approved and activated.');
     }

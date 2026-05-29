@@ -3,7 +3,7 @@
  * CLMS 2.0 — Employee Master List
  * HR Admin: all employees  |  Contractor: own employees only
  */
-Auth::requireRole('hr_admin', 'contractor', 'section_incharge', 'hod', 'plant_head');
+Auth::requireRole(['hr_admin', 'contractor', 'section_incharge', 'hod', 'plant_head']);
 
 $user     = Auth::user();
 $isAdmin  = Auth::hasRole('hr_admin');

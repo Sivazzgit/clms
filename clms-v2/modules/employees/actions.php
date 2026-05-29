@@ -34,14 +34,14 @@ switch ($action) {
             'approved_by' => Auth::user()['id'],
             'approved_at' => date('Y-m-d H:i:s'),
         ], ['id' => $id]);
-        AuditLogger::log('APPROVE', 'employees', null, (string)$id,
+        AuditLogger::log('APPROVE', 'employees', $id,
             ['status' => $emp['status']], ['status' => 'active']);
         Helpers::jsonOk('Employee approved and activated.');
         break;
 
     case 'deactivate':
         DB::update('employees', ['status' => 'inactive'], ['id' => $id]);
-        AuditLogger::log('DEACTIVATE', 'employees', null, (string)$id,
+        AuditLogger::log('DEACTIVATE', 'employees', $id,
             ['status' => $emp['status']], ['status' => 'inactive']);
         Helpers::jsonOk('Employee deactivated.');
         break;
@@ -56,7 +56,7 @@ switch ($action) {
             if (file_exists($path)) @unlink($path);
         }
         DB::delete('employees', ['id' => $id]);
-        AuditLogger::log('DELETE', 'employees', null, (string)$id, AuditLogger::sanitize($emp), null);
+        AuditLogger::log('DELETE', 'employees', $id, AuditLogger::sanitize($emp), null);
         Helpers::jsonOk('Employee record deleted.');
         break;
 

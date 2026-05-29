@@ -5,7 +5,7 @@
 Auth::requireRole(['hr_admin','finance']);
 $companyId = $_SESSION['company_id'];
 
-$billingId = (int)($routeParams['id'] ?? 0);
+$billingId = (int)($_GET['id'] ?? 0);
 $period = DB::row(
     "SELECT bp.*, v.name AS vendor_name FROM billing_periods bp
      JOIN vendors v ON v.id=bp.vendor_id

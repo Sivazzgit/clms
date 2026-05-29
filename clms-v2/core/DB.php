@@ -107,6 +107,11 @@ class DB
         return self::execute("DELETE FROM `$table` WHERE $cond", array_values($where));
     }
 
+    public static function lastInsertId(): int
+    {
+        return (int) self::connection()->lastInsertId();
+    }
+
     public static function beginTransaction(): void  { self::connection()->beginTransaction(); }
     public static function commit(): void            { self::connection()->commit(); }
     public static function rollback(): void          { self::connection()->rollBack(); }

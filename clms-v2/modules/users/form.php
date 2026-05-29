@@ -23,8 +23,8 @@ if ($isEdit && !$record) {
 // All roles
 $allRoles = DB::rows('SELECT id, code, name FROM roles ORDER BY name');
 
-// Sections
-$allSections = DB::rows('SELECT id, name FROM sections WHERE is_active = 1 ORDER BY name');
+// Sections (scoped to current company)
+$allSections = DB::rows('SELECT id, name FROM sections WHERE company_id = ? AND is_active = 1 ORDER BY name', [$_SESSION['company_id']]);
 
 // All vendors (for contractor role assignment)
 $allVendors = DB::rows("SELECT id, vendor_code, name FROM vendors WHERE status='active' ORDER BY name");
@@ -32,6 +32,16 @@ $allVendors = DB::rows("SELECT id, vendor_code, name FROM vendors WHERE status='
 // Current role & section assignments
 $currentRoles    = $isEdit ? array_column(DB::rows('SELECT role_id, vendor_id FROM user_roles WHERE user_id = ?', [$id]), null, 'role_id') : [];
 $currentSections = $isEdit ? array_column(DB::rows('SELECT section_id FROM user_sections WHERE user_id = ?', [$id]), 'section_id') : [];
+$currentPlants   = $isEdit ? array_column(DB::rows('SELECT plant_id FROM user_plants WHERE user_id = ?', [$id]), 'plant_id') : [];
+
+// Resolve contractor's pre-assigned vendor_id from user_roles
+$contractorRoleId   = null;
+foreach ($allRoles as $r) { if ($r['code'] === 'contractor') { $contractorRoleId = $r['id']; break; } }
+$contractorVendorId = ($contractorRoleId && isset($currentRoles[$contractorRoleId]))
+    ? (int)($currentRoles[$contractorRoleId]['vendor_id'] ?? 0) : 0;
+
+// All plants for this company
+$allPlants = DB::rows('SELECT id, code, name FROM plants WHERE company_id = ? AND is_active = 1 ORDER BY code', [$_SESSION['company_id']]);
 
 // ----------------------------------------------------------------
 // POST — Save
@@ -49,9 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'force_pwd_change' => isset($_POST['force_pwd_change']) ? 1 : 0,
     ];
 
-    $selectedRoles   = array_map('intval', (array)($_POST['roles'] ?? []));
+    $selectedRoles    = array_map('intval', (array)($_POST['roles']    ?? []));
     $selectedSections = array_map('intval', (array)($_POST['sections'] ?? []));
-    $vendorId        = !empty($_POST['vendor_id']) ? (int)$_POST['vendor_id'] : null;
+    $selectedPlants   = array_map('intval', (array)($_POST['plants']   ?? []));
+    $vendorId         = !empty($_POST['vendor_id']) ? (int)$_POST['vendor_id'] : null;
     $newPassword     = $_POST['password'] ?? '';
 
     // Validate
@@ -71,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errors)) {
         try {
-            DB::transaction(function () use ($data, $id, $isEdit, $newPassword, $selectedRoles, $selectedSections, $vendorId) {
+            DB::transaction(function () use ($data, $id, $isEdit, $newPassword, $selectedRoles, $selectedSections, $selectedPlants, $vendorId) {
                 if (!empty($newPassword)) {
                     $data['password_hash'] = password_hash($newPassword, PASSWORD_BCRYPT, ['cost' => BCRYPT_COST]);
                 }
@@ -83,6 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     AuditLogger::log('UPDATE', 'users', $id, AuditLogger::sanitize($old), AuditLogger::sanitize($data));
                 } else {
                     $data['created_at'] = date('Y-m-d H:i:s');
+                    $data['company_id']  = $_SESSION['company_id'];
                     $id = DB::insert('users', $data);
                     AuditLogger::log('INSERT', 'users', $id, null, AuditLogger::sanitize($data));
                 }
@@ -101,6 +113,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 DB::execute('DELETE FROM user_sections WHERE user_id = ?', [$id]);
                 foreach ($selectedSections as $sectionId) {
                     DB::insert('user_sections', ['user_id' => $id, 'section_id' => $sectionId]);
+                }
+
+                // Sync plants
+                DB::execute('DELETE FROM user_plants WHERE user_id = ?', [$id]);
+                foreach ($selectedPlants as $plantId) {
+                    DB::insert('user_plants', ['user_id' => $id, 'plant_id' => $plantId, 'assigned_by' => $_SESSION['user_id']]);
                 }
             });
 
@@ -244,7 +262,7 @@ ob_start();
           <select id="vendor_id" name="vendor_id" class="form-control">
             <option value="">— Select contractor —</option>
             <?php foreach ($allVendors as $v): ?>
-              <option value="<?= $v['id'] ?>" <?= (($record['vendor_id'] ?? 0) == $v['id'] || ($_POST['vendor_id'] ?? '') == $v['id']) ? 'selected' : '' ?>>
+              <option value="<?= $v['id'] ?>" <?= ($contractorVendorId == $v['id'] || ($_POST['vendor_id'] ?? '') == $v['id']) ? 'selected' : '' ?>>
                 <?= Helpers::h($v['vendor_code'] . ' — ' . $v['name']) ?>
               </option>
             <?php endforeach; ?>
@@ -273,6 +291,27 @@ ob_start();
       </div>
     </div>
   </div>
+
+  <!-- Plant Assignment -->
+  <?php if ($allPlants): ?>
+  <div class="card" style="margin-bottom:var(--space-6)" id="plantCard">
+    <div class="card-header">
+      <h2 class="card-title">Plant Assignment</h2>
+      <p class="card-subtitle" style="font-size:var(--text-sm);color:var(--clr-text-muted)">Assign the plant(s) this user belongs to. Relevant for Plant Head, HOD, Section In-charge, and Group Head roles.</p>
+    </div>
+    <div class="card-body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:var(--space-3)">
+        <?php foreach ($allPlants as $pl): ?>
+          <?php $checked = in_array($pl['id'], $currentPlants) || in_array($pl['id'], array_map('intval', (array)($_POST['plants'] ?? []))); ?>
+          <label style="display:flex;align-items:center;gap:var(--space-2);cursor:pointer;padding:var(--space-3);border:var(--border-base);border-radius:var(--radius-base)">
+            <input type="checkbox" name="plants[]" value="<?= $pl['id'] ?>" <?= $checked ? 'checked' : '' ?>>
+            <span><strong><?= Helpers::h($pl['code']) ?></strong> — <?= Helpers::h($pl['name']) ?></span>
+          </label>
+        <?php endforeach; ?>
+      </div>
+    </div>
+  </div>
+  <?php endif; ?>
 
   <!-- Submit -->
   <div style="display:flex;gap:var(--space-3)">
